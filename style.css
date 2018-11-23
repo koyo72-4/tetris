@@ -19,3 +19,42 @@ body {
     background-color: black;
     border: 1px outset white;
 }
+
+#tetrominoes {
+    margin-left: 50px;
+    border: 3px solid green;
+    display: grid;
+    grid-template-columns: repeat(12, 20px);
+    grid-template-rows: repeat(5, 42px);
+}
+
+.shape {
+    grid-column-start: 1;
+    grid-column-end: 13;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(4, 20px);
+    grid-template-rows: repeat(2, 20px);
+}
+
+#i .square {
+    background-color: red;
+}
+
+#o .square {
+    background-color: pink;
+}
+
+#o .square:nth-child(3) {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#z .square {
+    background-color: orange;
+}
+
+#z .square:nth-child(3) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
