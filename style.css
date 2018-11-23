@@ -58,3 +58,21 @@ body {
     grid-column-start: 2;
     grid-column-end: 3;
 }
+
+#l .square {
+    background-color: purple;
+}
+
+#l .square:nth-child(4) {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#t .square {
+    background-color: yellow;
+}
+
+#t .square:nth-child(4) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}

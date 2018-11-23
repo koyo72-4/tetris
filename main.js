@@ -25,3 +25,17 @@ for (let i = 0; i < 4; i++) {
     square.classList.add('square');
     zShape.appendChild(square); 
 }
+
+let lShape = document.getElementById('l');
+for (let i = 0; i < 4; i++) {
+    let square = document.createElement('div');
+    square.classList.add('square');
+    lShape.appendChild(square); 
+}
+
+let tShape = document.getElementById('t');
+for (let i = 0; i < 4; i++) {
+    let square = document.createElement('div');
+    square.classList.add('square');
+    tShape.appendChild(square); 
+}
