@@ -27,6 +27,21 @@ function getRandomShape() {
 let shape = getRandomShape();
 shape.style.position = 'absolute';
 shape.style.top = '0px';
-shape.style.left = '0px';
+shape.style.left = '80px';
 grid.appendChild(shape);
 
+floatDown();
+
+function floatDown() {
+    let floatDownInterval = window.setInterval(drop, 500);
+    let height = Number(shape.style.top.substring(0, -2));
+
+    function drop() {
+        height += 20;
+        if (height <= 360) {
+            shape.style.top = height + 'px';
+        } else {
+            clearInterval(floatDownInterval);
+        }
+    }
+}
