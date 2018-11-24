@@ -28,42 +28,42 @@ body {
     z-index: 5;
 }
 
-#i .square {
+.i .square {
     background-color: red;
 }
 
-#o .square {
+.o .square {
     background-color: pink;
 }
 
-#o .square:nth-child(3) {
+.o .square:nth-child(3) {
     grid-column-start: 1;
     grid-column-end: 2;
 }
 
-#z .square {
+.z .square {
     background-color: orange;
 }
 
-#z .square:nth-child(3) {
+.z .square:nth-child(3) {
     grid-column-start: 2;
     grid-column-end: 3;
 }
 
-#l .square {
+.l .square {
     background-color: purple;
 }
 
-#l .square:nth-child(4) {
+.l .square:nth-child(4) {
     grid-column-start: 1;
     grid-column-end: 2;
 }
 
-#t .square {
+.t .square {
     background-color: yellow;
 }
 
-#t .square:nth-child(4) {
+.t .square:nth-child(4) {
     grid-column-start: 2;
     grid-column-end: 3;
 }

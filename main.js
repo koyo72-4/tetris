@@ -1,9 +1,68 @@
-playGame();
+class Round {
+    constructor(id) {
+        this.id = id;
+        this.shapes = this.createShapes(this.id);
+        this.shape = this.getRandomShape(this.shapes);
+    }
 
-function playGame() {
-    drawGrid();
-    let tetrominoes = createShapes();
-    descendShape(tetrominoes);
+    createShapes(id) {
+        let shapeNames = ['i', 'o', 'z', 't', 'l'];
+    
+        let tetrominoes = shapeNames.map(name => {
+            let shape = document.createElement('div');
+            shape.classList.add('shape');
+            shape.classList.add(name);
+            shape.id = name + id;
+            for (let i = 0; i < 4; i++) {
+                let square = document.createElement('div');
+                square.classList.add('square');
+                shape.appendChild(square);
+            }
+            return shape;
+        });
+    
+        return tetrominoes;
+    }
+
+    getRandomShape(array) {
+        return array[Math.floor(Math.random() * 5)];
+    }
+
+    positionShape() {
+        this.shape.style.position = 'absolute';
+        this.shape.style.top = '0px';
+        let classes = Array.from(this.shape.classList);
+        if (classes.includes('i')) {
+            this.shape.style.left = '80px';
+        } else {
+            this.shape.style.left = '100px';
+        }
+    }
+
+    floatDown() {
+        console.log(this.shape);
+        let floatDownInterval = window.setInterval(() => drop(this.shape), 100);
+        let height = Number(this.shape.style.top.substring(0, -2));
+    
+        function drop(shape) {
+            height += 20;
+            console.log(height);
+            let classes = Array.from(shape.classList);
+            if (classes.includes('i') && height <= 380) {
+                shape.style.top = height + 'px';
+            } else if (!classes.includes('i') && height <= 360) {
+                shape.style.top = height + 'px';
+            } else {
+                clearInterval(floatDownInterval);
+            }
+        }
+    }      
+
+    playRound() {
+        this.positionShape();
+        document.getElementById('grid').appendChild(this.shape);
+        this.floatDown();
+    }  
 }
 
 function drawGrid() {
@@ -15,55 +74,11 @@ function drawGrid() {
     }
 }
 
-function createShapes() {
-    let shapeIds = ['i', 'o', 'z', 't', 'l'];
 
-    let tetrominoes = shapeIds.map(id => {
-        let shape = document.createElement('div');
-        shape.classList.add('shape');
-        shape.id = id;
-        for (let i = 0; i < 4; i++) {
-            let square = document.createElement('div');
-            square.classList.add('square');
-            shape.appendChild(square);
-        }
-        return shape;
-    });
+drawGrid();
 
-    return tetrominoes;
+let idCounter = 1;
+for (let i = 0; i < 5; i++) {
+    new Round(idCounter).playRound();
+    idCounter++;
 }
-
-function descendShape(arrayOfShapes) {
-    let shape = getRandomShape(arrayOfShapes);
-
-    shape.style.position = 'absolute';
-    shape.style.top = '0px';
-    if (shape.id === 'i') {
-        shape.style.left = '80px';
-    } else {
-        shape.style.left = '100px';
-    }
-    
-    document.getElementById('grid').appendChild(shape);
-    floatDown(shape);
-}
-
-function getRandomShape(arrayOfShapes) {
-    return arrayOfShapes[Math.floor(Math.random() * 5)];
-}
-
-function floatDown(shape) {
-    let floatDownInterval = window.setInterval(drop, 500);
-    let height = Number(shape.style.top.substring(0, -2));
-
-    function drop() {
-        height += 20;
-        if (shape.id === 'i' && height <= 380) {
-            shape.style.top = height + 'px';
-        } else if (shape.id !== 'i' && height <= 360) {
-            shape.style.top = height + 'px';
-        } else {
-            clearInterval(floatDownInterval);
-        }
-    }
-}    
