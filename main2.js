@@ -40,13 +40,12 @@ class Round {
     }
 
     floatDown() {
-        console.log(this.shape);
-        let floatDownInterval = window.setInterval(() => drop(this.shape), 100);
+        drop = drop.bind(this);
+        let floatDownInterval = window.setInterval(() => drop(this.shape), 70);
         let height = Number(this.shape.style.top.substring(0, -2));
     
         function drop(shape) {
             height += 20;
-            console.log(height);
             let classes = Array.from(shape.classList);
             if (classes.includes('i') && height <= 380) {
                 shape.style.top = height + 'px';
@@ -78,7 +77,6 @@ function drawGrid() {
 drawGrid();
 
 let idCounter = 1;
-for (let i = 0; i < 5; i++) {
-    new Round(idCounter).playRound();
-    idCounter++;
-}
+let r = new Round(idCounter);
+
+r.playRound();
