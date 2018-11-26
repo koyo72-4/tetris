@@ -83,16 +83,21 @@ function drawGrid() {
     }
 }
 
-
-drawGrid();
-
-let idCounter = 0;
-let bottom = 360;
-
-play();
+function* IdGenerator() {
+    let id = 0;
+    while (true) {
+        yield ++id;
+    }
+}
 
 function play() {
-    idCounter++;
-    let r = new Round(idCounter);
+    let r = new Round(idIterator.next().value);
     r.playRound();
 }
+
+
+const idIterator = IdGenerator();
+let bottom = 360;
+
+drawGrid();
+play();
