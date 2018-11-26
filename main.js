@@ -1,8 +1,6 @@
 class Round {
-    constructor(id, iBottom, otherBottom) {
+    constructor(id) {
         this.id = id;
-        this.iBottom = iBottom;
-        this.otherBottom = otherBottom;
         this.shapes = this.createShapes(this.id);
         this.shape = this.getRandomShape(this.shapes);
         this.shapeAtBottom = false;
@@ -50,15 +48,20 @@ class Round {
         function drop(shape) {
             height += 20;
             let classes = Array.from(shape.classList);
-            if (classes.includes('i') && height <= this.iBottom) {
+            if (classes.includes('i') && height <= (bottom + 20)) {
                 shape.style.top = height + 'px';
-            } else if (!classes.includes('i') && height <= this.otherBottom) {
+            } else if (!classes.includes('i') && height <= bottom) {
                 shape.style.top = height + 'px';
             } else {
                 clearInterval(floatDownInterval);
                 this.shapeAtBottom = true;
             }
             if (this.shapeAtBottom) {
+                if (classes.includes('i')) {
+                    bottom -= 20;
+                } else {
+                    bottom -= 40;
+                }
                 play();
             }
         }
@@ -83,14 +86,13 @@ function drawGrid() {
 
 drawGrid();
 
-let idCounter = 1;
-let iBottom = 380;
-let otherBottom = 360;
+let idCounter = 0;
+let bottom = 360;
 
 play();
 
 function play() {
-    let r = new Round(idCounter, iBottom, otherBottom);
-    r.playRound();
     idCounter++;
+    let r = new Round(idCounter);
+    r.playRound();
 }
