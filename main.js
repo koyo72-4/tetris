@@ -1,13 +1,9 @@
 class Game {
     constructor() {
         this.board = new Board();
-        this.board = this.initializeBoard();
         this.currentShape = new Shape(idIterator.next().value);
     }
-
-
-
-    
+ 
     play() {
         let shape = this.currentShape.shape;
         this.currentShape.positionSelf();
@@ -21,7 +17,7 @@ class Game {
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             let keepMoving = true;
             for (let squareNumber of squaresToMoveTo) {
-                if (this.board[squareNumber - 1] === 'occupied') {
+                if (this.board.squares[squareNumber - 1] === 'occupied') {
                     keepMoving = false;
                 }
             }
@@ -33,7 +29,7 @@ class Game {
             if (keepMoving === false) {
                 clearInterval(floatDownInterval);
                 this.currentShape.updateState('fixed');
-                this.updateBoard(this.currentShape.position);
+                this.board.updateBoard(this.currentShape.position);
             } else {
                 shape.style.top = height + 'px';
                 this.currentShape.position = squaresToMoveTo;
@@ -51,7 +47,7 @@ class Game {
         });
         let keepMoving = true;
         for (let squareNumber of squaresToMoveTo) {
-            if (this.board[squareNumber - 1] === 'occupied') {
+            if (this.board.squares[squareNumber - 1] === 'occupied') {
                 keepMoving = false;
             }
         }
@@ -81,7 +77,7 @@ class Game {
         });
         let keepMoving = true;
         for (let squareNumber of squaresToMoveTo) {
-            if (this.board[squareNumber - 1] === 'occupied') {
+            if (this.board.squares[squareNumber - 1] === 'occupied') {
                 keepMoving = false;
             }
         }
@@ -100,7 +96,7 @@ class Game {
 
 class Board {
     constructor() {
-
+        this.squares = this.initializeBoard();
     }
 
     initializeBoard() {
@@ -122,7 +118,7 @@ class Board {
 
     updateBoard(occupiedSquares) {
         for (let squareNumber of occupiedSquares) {
-            this.board[squareNumber - 1] = 'occupied';
+            this.squares[squareNumber - 1] = 'occupied';
         }
     }
 }
@@ -211,7 +207,7 @@ const idIterator = IdGenerator();
 let bottom = 360;
 
 let game = new Game();
-game.drawBoard();
+game.board.drawBoard();
 game.play();
 
 window.addEventListener('keydown', function() {
