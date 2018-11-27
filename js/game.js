@@ -5,17 +5,18 @@ class Game {
     }
  
     play() {
-        let shape = this.currentShape.shape;
         this.currentShape.positionSelf();
         drop = drop.bind(this);
-        const floatDownInterval = window.setInterval(() => drop(shape), 600);
-        let height = Number(shape.style.top.slice(0, -2));
+
+        const floatDownInterval = window.setInterval(() => drop(this.currentShape.shape), 600);
+        const classes = this.currentShape.classes;
+        let height = Number(this.currentShape.shape.style.top.slice(0, -2));
     
         function drop(shape) {
             height += 20;
-            let classes = this.currentShape.classes;
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             let keepMoving = true;
+
             for (let squareNumber of squaresToMoveTo) {
                 if (this.board.squares[squareNumber - 1] === 'occupied') {
                     keepMoving = false;
@@ -26,6 +27,7 @@ class Game {
             } else if (!classes.includes('i') && height > bottom) {
                 keepMoving = false;
             }
+
             if (keepMoving === false) {
                 clearInterval(floatDownInterval);
                 this.currentShape.updateState('fixed');
@@ -34,6 +36,7 @@ class Game {
                 shape.style.top = height + 'px';
                 this.currentShape.position = squaresToMoveTo;
             }
+
             if (this.currentShape.state === 'fixed') {
                 this.getNewShape();
                 this.play();
@@ -42,17 +45,14 @@ class Game {
     }
 
     slideLeft() {
-        let squaresToMoveTo = this.currentShape.position.map(squareNumber => {
-            return squareNumber - 1;
-        });
+        let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
         let keepMoving = true;
         for (let squareNumber of squaresToMoveTo) {
             if (this.board.squares[squareNumber - 1] === 'occupied') {
                 keepMoving = false;
             }
         }
-        console.log('shape:', this.currentShape);
-        console.log('state:', this.currentShape.state);
+
         if (this.currentShape.state === 'fixed') {
             keepMoving = false;
         }
@@ -62,7 +62,7 @@ class Game {
         // } else if (!this.currentShape.classes.includes('i') && height > bottom) {
         //     keepMoving = false;
         // }
-        console.log('keepMoving:', keepMoving);
+
         if (keepMoving) {
             let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
             xPos -= 20;
@@ -72,9 +72,7 @@ class Game {
     }
 
     slideRight() {
-        let squaresToMoveTo = this.currentShape.position.map(squareNumber => {
-            return squareNumber + 1;
-        });
+        let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
         let keepMoving = true;
         for (let squareNumber of squaresToMoveTo) {
             if (this.board.squares[squareNumber - 1] === 'occupied') {

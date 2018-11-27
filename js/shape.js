@@ -33,33 +33,38 @@ class Shape {
     positionSelf() {
         this.shape.style.position = 'absolute';
         this.shape.style.top = '0px';
-        if (this.classes.includes('i')) {
-            this.shape.style.left = '80px';
-        } else {
-            this.shape.style.left = '100px';
-        }
+        if (this.classes.includes('i')) this.shape.style.left = '80px';
+        else this.shape.style.left = '100px';
         document.getElementById('grid').appendChild(this.shape);
     }
 
     getStartingPosition() {
         let inhabitedSquares;
-        if (this.classes.includes('i')) {
-            inhabitedSquares = [5, 6, 7, 8];
-        } else if (this.classes.includes('o')) {
-            inhabitedSquares = [6, 7, 18, 19];
-        } else if (this.classes.includes('z')) {
-            inhabitedSquares = [6, 7, 19, 20];
-        } else if (this.classes.includes('t')) {
-            inhabitedSquares = [6, 7, 8, 19];
-        } else if (this.classes.includes('l')) {
-            inhabitedSquares = [6, 7, 8, 18];
-        }
+        if (this.classes.includes('i')) inhabitedSquares = [5, 6, 7, 8];
+        else if (this.classes.includes('o')) inhabitedSquares = [6, 7, 18, 19];
+        else if (this.classes.includes('z')) inhabitedSquares = [6, 7, 19, 20];
+        else if (this.classes.includes('t')) inhabitedSquares = [6, 7, 8, 19];
+        else if (this.classes.includes('l')) inhabitedSquares = [6, 7, 8, 18];
         return inhabitedSquares;
     }
 
     getNextPositionGoingDown() {
         let nextSquares = this.position.map(squareNumber => {
             return squareNumber + 12;
+        });
+        return nextSquares;
+    }
+
+    getNextPositionGoingLeft() {
+        let nextSquares = this.position.map(squareNumber => {
+            return squareNumber - 1;
+        });
+        return nextSquares;
+    }
+
+    getNextPositionGoingRight() {
+        let nextSquares = this.position.map(squareNumber => {
+            return squareNumber + 1;
         });
         return nextSquares;
     }
