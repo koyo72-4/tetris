@@ -22,38 +22,42 @@ class Game {
     }
 
     updateBoard(occupiedSquares) {
-        let [ first, second, third, fourth ] = occupiedSquares;
-        this.board[first - 1] = 'occupied';
-        this.board[second - 1] = 'occupied';
-        this.board[third - 1] = 'occupied';
-        this.board[fourth - 1] = 'occupied';
+        for (let squareNumber of occupiedSquares) {
+            this.board[squareNumber - 1] = 'occupied';
+        }
     }
 
     play() {
         let shape = this.currentShape.shape;
-        this.currentShape.position();
+        this.currentShape.positionSelf();
         drop = drop.bind(this);
-        const floatDownInterval = window.setInterval(() => drop(shape), 7000);
+        const floatDownInterval = window.setInterval(() => drop(shape), 70);
         let height = Number(shape.style.top.substring(0, -2));
     
         function drop(shape) {
             height += 20;
             let classes = this.currentShape.classes;
-            if (classes.includes('i') && height <= (bottom + 20)) {
-                shape.style.top = height + 'px';
-            } else if (!classes.includes('i') && height <= bottom) {
-                shape.style.top = height + 'px';
-            } else {
+            let squaresToMoveTo = this.currentShape.getNextPosition();
+            let keepMoving = true;
+            for (let squareNumber of squaresToMoveTo) {
+                if (this.board[squareNumber - 1] === 'occupied') {
+                    keepMoving = false;
+                }
+            }
+            if (classes.includes('i') && height > (bottom + 20)) {
+                keepMoving = false;
+            } else if (!classes.includes('i') && height > bottom) {
+                keepMoving = false;
+            }
+            if (keepMoving === false) {
                 clearInterval(floatDownInterval);
                 this.currentShape.updateState("fixed");
-                this.updateBoard(this.currentShape.calculatePosition());
+                this.updateBoard(this.currentShape.position);
+            } else {
+                shape.style.top = height + 'px';
+                this.currentShape.position = squaresToMoveTo;
             }
             if (this.currentShape.state === "fixed") {
-                if (classes.includes('i')) {
-                    bottom -= 20;
-                } else {
-                    bottom -= 40;
-                }
                 this.getNewShape();
                 this.play();
             }
@@ -71,6 +75,7 @@ class Shape {
         this.possibleShapes = this.createShapes(this.id);
         this.shape = this.getRandomShape(this.possibleShapes);
         this.classes = Array.from(this.shape.classList);
+        this.position = this.getStartingPosition();
         this.state = "moving";
     }
 
@@ -97,7 +102,7 @@ class Shape {
         return possibleShapes[Math.floor(Math.random() * 5)];
     }
 
-    position() {
+    positionSelf() {
         this.shape.style.position = 'absolute';
         this.shape.style.top = '0px';
         if (this.classes.includes('i')) {
@@ -108,28 +113,30 @@ class Shape {
         document.getElementById('grid').appendChild(this.shape);
     }
 
-    updateState(state) {
-        this.state = state === "moving" ? "moving" : "fixed";
+    getStartingPosition() {
+        let inhabitedSquares;
+        if (this.classes.includes('i')) {
+            inhabitedSquares = [5, 6, 7, 8];
+        } else if (this.classes.includes('o')) {
+            inhabitedSquares = [6, 7, 18, 19];
+        } else if (this.classes.includes('z')) {
+            inhabitedSquares = [6, 7, 19, 20];
+        } else if (this.classes.includes('t')) {
+            inhabitedSquares = [6, 7, 8, 19];
+        } else if (this.classes.includes('l')) {
+            inhabitedSquares = [6, 7, 8, 18];
+        }
+        return inhabitedSquares;
     }
 
-    calculatePosition() {
-        let pixelsFromTop = Number(this.shape.style.top.substring(0, -2));
-        // let pixelsFromLeft = Number(this.shape.style.left.substring(0, -2));
-        let squaresFromTop = pixelsFromTop / 20;
-        // let squaresFromLeft = pixelsFromLeft / 20;
-        let occupiedSquares;
-        if (this.classes.includes('i')) {
-            occupiedSquares = [233, 234, 235, 236];
-        } else if (this.classes.includes('o')) {
-            occupiedSquares = [222, 223, 234, 235];
-        } else if (this.classes.includes('z')) {
-            occupiedSquares = [222, 223, 235, 236];
-        } else if (this.classes.includes('t')) {
-            occupiedSquares = [222, 223, 224, 235];
-        } else if (this.classes.includes('l')) {
-            occupiedSquares = [222, 223, 224, 234];
-        }
-        return occupiedSquares;
+    getNextPosition() {
+        const [ first, second, third, fourth ] = this.position;
+        let nextSquares = [first + 12, second + 12, third + 12, fourth + 12];
+        return nextSquares;
+    }
+
+    updateState(state) {
+        this.state = state === "moving" ? "moving" : "fixed";
     }
 }
 
