@@ -31,13 +31,13 @@ class Game {
         let shape = this.currentShape.shape;
         this.currentShape.positionSelf();
         drop = drop.bind(this);
-        const floatDownInterval = window.setInterval(() => drop(shape), 70);
-        let height = Number(shape.style.top.substring(0, -2));
+        const floatDownInterval = window.setInterval(() => drop(shape), 200);
+        let height = Number(shape.style.top.slice(0, -2));
     
         function drop(shape) {
             height += 20;
             let classes = this.currentShape.classes;
-            let squaresToMoveTo = this.currentShape.getNextPosition();
+            let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             let keepMoving = true;
             for (let squareNumber of squaresToMoveTo) {
                 if (this.board[squareNumber - 1] === 'occupied') {
@@ -51,16 +51,52 @@ class Game {
             }
             if (keepMoving === false) {
                 clearInterval(floatDownInterval);
-                this.currentShape.updateState("fixed");
+                this.currentShape.updateState('fixed');
                 this.updateBoard(this.currentShape.position);
             } else {
                 shape.style.top = height + 'px';
                 this.currentShape.position = squaresToMoveTo;
             }
-            if (this.currentShape.state === "fixed") {
+            if (this.currentShape.state === 'fixed') {
                 this.getNewShape();
                 this.play();
             }
+        }
+    }
+
+    slideLeft() {
+        let squaresToMoveTo = this.currentShape.position.map(squareNumber => {
+            return squareNumber - 1;
+        });
+        let keepMoving = true;
+        for (let squareNumber of squaresToMoveTo) {
+            if (this.board[squareNumber - 1] === 'occupied') {
+                keepMoving = false;
+            }
+        }
+        if (keepMoving) {
+            let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
+            xPos -= 20;
+            this.currentShape.shape.style.left = xPos + 'px';
+            this.currentShape.position = squaresToMoveTo;
+        }
+    }
+
+    slideRight() {
+        let squaresToMoveTo = this.currentShape.position.map(squareNumber => {
+            return squareNumber + 1;
+        });
+        let keepMoving = true;
+        for (let squareNumber of squaresToMoveTo) {
+            if (this.board[squareNumber - 1] === 'occupied') {
+                keepMoving = false;
+            }
+        }
+        if (keepMoving) {
+            let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
+            xPos += 20;
+            this.currentShape.shape.style.left = xPos + 'px';
+            this.currentShape.position = squaresToMoveTo;
         }
     }
 
@@ -76,7 +112,7 @@ class Shape {
         this.shape = this.getRandomShape(this.possibleShapes);
         this.classes = Array.from(this.shape.classList);
         this.position = this.getStartingPosition();
-        this.state = "moving";
+        this.state = 'moving';
     }
 
     createShapes(id) {
@@ -129,14 +165,15 @@ class Shape {
         return inhabitedSquares;
     }
 
-    getNextPosition() {
-        const [ first, second, third, fourth ] = this.position;
-        let nextSquares = [first + 12, second + 12, third + 12, fourth + 12];
+    getNextPositionGoingDown() {
+        let nextSquares = this.position.map(squareNumber => {
+            return squareNumber + 12;
+        });
         return nextSquares;
     }
 
     updateState(state) {
-        this.state = state === "moving" ? "moving" : "fixed";
+        this.state = state === 'moving' ? 'moving' : 'fixed';
     }
 }
 
@@ -154,3 +191,23 @@ let bottom = 360;
 let game = new Game();
 game.drawBoard();
 game.play();
+
+window.addEventListener('keydown', function() {
+    console.log('event:', event, 'game:', game);
+    if (event.key === 'ArrowLeft') {
+        console.log('going to slide left now');
+        game.slideLeft();
+    } else if (event.key === 'ArrowRight') {
+        game.slideRight();
+    }
+});
+
+// function handleKeyPress(event) {
+//     console.log('event:', event, 'game:', game);
+//     if (event.which === 37) {
+//         console.log('going to slide left now');
+//         game.currentShape.slideLeft();
+//     } else if (event.which === 39) {
+//         game.currentShape.slideRight();
+//     }
+// }
