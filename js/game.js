@@ -1,20 +1,40 @@
 class Game {
     constructor() {
         this.board = new Board();
-        this.currentShape = new Shape(idIterator.next().value);
+        this.idIterator = this.IdGenerator();
+        this.currentShape = new Shape(this.idIterator.next().value);
+    }
+
+    *IdGenerator() {
+        let id = 0;
+        while (true) {
+            console.log('id:', id);
+            yield ++id;
+        }
+    }
+
+    start() {
+        this.board.draw();
+
+        window.addEventListener('keydown', function() {
+            if (event.key === 'ArrowLeft') this.slideLeft();
+            else if (event.key === 'ArrowRight') this.slideRight();
+        }.bind(this));
+
+        this.play();
     }
  
     play() {
         this.currentShape.positionSelf();
         drop = drop.bind(this);
 
-        const floatDownInterval = window.setInterval(() => drop(this.currentShape.shape), 1050);
+        const floatDownInterval = window.setInterval(() => drop(this.currentShape.shape), 300);
         const classes = this.currentShape.classes;
         let height = Number(this.currentShape.shape.style.top.slice(0, -2));
         console.log('classes:', classes, 'height:', height, 'bottom:', bottom);
     
         function drop(shape) {
-            height += 20; console.log('height again:', height);
+            height += 20; console.log('height again:', height, 'classes:', classes);
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             let keepMoving = true;
 
@@ -78,6 +98,9 @@ class Game {
             if (this.shapeShouldBecomeFixed()) {
                 this.currentShape.updateState('fixed');
                 this.board.update(this.currentShape.position);
+                this.getNewShape();
+                this.play();
+                // we aren't clearing the interval
             }
         }
     }
@@ -99,6 +122,8 @@ class Game {
             if (this.shapeShouldBecomeFixed()) {
                 this.currentShape.updateState('fixed');
                 this.board.update(this.currentShape.position);
+                this.getNewShape();
+                this.play();
             }
         }
     }
@@ -120,6 +145,6 @@ class Game {
     }
 
     getNewShape() {
-        this.currentShape = new Shape(idIterator.next().value);
+        this.currentShape = new Shape(this.idIterator.next().value);
     }
 }
