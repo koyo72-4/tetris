@@ -17,5 +17,5 @@ const idIterator = IdGenerator();
 let bottom = 360;
 
 let game = new Game();
-game.board.drawBoard();
+game.board.draw();
 game.play();

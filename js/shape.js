@@ -1,8 +1,7 @@
 class Shape {
     constructor(id) {
         this.id = id;
-        this.possibleShapes = this.createShapes(this.id);
-        this.shape = this.getRandomShape(this.possibleShapes);
+        this.shape = this.getRandomShape(this.createShapes(this.id));
         this.classes = Array.from(this.shape.classList);
         this.position = this.getStartingPosition();
         this.state = 'moving';

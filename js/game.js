@@ -29,7 +29,7 @@ class Game {
             if (keepMoving === false) {
                 clearInterval(floatDownInterval);
                 this.currentShape.updateState('fixed');
-                this.board.updateBoard(this.currentShape.position);
+                this.board.update(this.currentShape.position);
             } else {
                 shape.style.top = height + 'px';
                 this.currentShape.position = squaresToMoveTo;

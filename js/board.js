@@ -1,9 +1,9 @@
 class Board {
     constructor() {
-        this.squares = this.initializeBoard();
+        this.squares = this.initialize();
     }
 
-    initializeBoard() {
+    initialize() {
         let board = [];
         for (let i = 1; i <= 240; i++) {
             board.push(i);
@@ -11,7 +11,7 @@ class Board {
         return board;
     }
 
-    drawBoard() {
+    draw() {
         let grid = document.getElementById('grid');
         for (let i = 1; i <= 240; i++) {
             let square = document.createElement('div');
@@ -20,7 +20,7 @@ class Board {
         }
     }
 
-    updateBoard(occupiedSquares) {
+    update(occupiedSquares) {
         for (let squareNumber of occupiedSquares) {
             this.squares[squareNumber - 1] = 'occupied';
         }
