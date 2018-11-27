@@ -4,6 +4,7 @@ class Shape {
         this.shape = this.getRandomShape(this.createShapes(this.id));
         this.classes = Array.from(this.shape.classList);
         this.position = this.getStartingPosition();
+        this.height = Number(this.shape.style.top.slice(0, -2));
         this.state = 'moving';
     }
 
