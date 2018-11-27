@@ -1,37 +1,18 @@
 class Game {
     constructor() {
+        this.board = new Board();
         this.board = this.initializeBoard();
         this.currentShape = new Shape(idIterator.next().value);
     }
 
-    initializeBoard() {
-        let board = [];
-        for (let i = 1; i <= 240; i++) {
-            board.push(i);
-        }
-        return board;
-    }
 
-    drawBoard() {
-        let grid = document.getElementById('grid');
-        for (let i = 1; i <= 240; i++) {
-            let square = document.createElement('div');
-            square.classList.add('square');
-            grid.appendChild(square);
-        }
-    }
 
-    updateBoard(occupiedSquares) {
-        for (let squareNumber of occupiedSquares) {
-            this.board[squareNumber - 1] = 'occupied';
-        }
-    }
-
+    
     play() {
         let shape = this.currentShape.shape;
         this.currentShape.positionSelf();
         drop = drop.bind(this);
-        const floatDownInterval = window.setInterval(() => drop(shape), 200);
+        const floatDownInterval = window.setInterval(() => drop(shape), 600);
         let height = Number(shape.style.top.slice(0, -2));
     
         function drop(shape) {
@@ -74,6 +55,18 @@ class Game {
                 keepMoving = false;
             }
         }
+        console.log('shape:', this.currentShape);
+        console.log('state:', this.currentShape.state);
+        if (this.currentShape.state === 'fixed') {
+            keepMoving = false;
+        }
+        // let height = Number(this.currentShape.shape.style.top.slice(0, -2));
+        // if (this.currentShape.classes.includes('i') && height > (bottom + 20)) {
+        //     keepMoving = false;
+        // } else if (!this.currentShape.classes.includes('i') && height > bottom) {
+        //     keepMoving = false;
+        // }
+        console.log('keepMoving:', keepMoving);
         if (keepMoving) {
             let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
             xPos -= 20;
@@ -102,6 +95,35 @@ class Game {
 
     getNewShape() {
         this.currentShape = new Shape(idIterator.next().value);
+    }
+}
+
+class Board {
+    constructor() {
+
+    }
+
+    initializeBoard() {
+        let board = [];
+        for (let i = 1; i <= 240; i++) {
+            board.push(i);
+        }
+        return board;
+    }
+
+    drawBoard() {
+        let grid = document.getElementById('grid');
+        for (let i = 1; i <= 240; i++) {
+            let square = document.createElement('div');
+            square.classList.add('square');
+            grid.appendChild(square);
+        }
+    }
+
+    updateBoard(occupiedSquares) {
+        for (let squareNumber of occupiedSquares) {
+            this.board[squareNumber - 1] = 'occupied';
+        }
     }
 }
 
@@ -201,13 +223,3 @@ window.addEventListener('keydown', function() {
         game.slideRight();
     }
 });
-
-// function handleKeyPress(event) {
-//     console.log('event:', event, 'game:', game);
-//     if (event.which === 37) {
-//         console.log('going to slide left now');
-//         game.currentShape.slideLeft();
-//     } else if (event.which === 39) {
-//         game.currentShape.slideRight();
-//     }
-// }
