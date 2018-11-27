@@ -8,7 +8,6 @@ class Game {
     *IdGenerator() {
         let id = 0;
         while (true) {
-            console.log('id:', id);
             yield ++id;
         }
     }
@@ -19,7 +18,7 @@ class Game {
         window.addEventListener('keydown', function() {
             if (event.key === 'ArrowLeft') this.slideLeft();
             else if (event.key === 'ArrowRight') this.slideRight();
-            else if (event.key === 'ArrowDown') this.slideDown();
+            else if (event.key === 'ArrowDown') this.drop();
         }.bind(this));
 
         this.currentShape.positionSelf();
@@ -27,45 +26,28 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 500);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 2000);
     }
 
     drop() {
-        let height = this.currentShape.height + 20;
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-        let keepMoving = true;
-
-        for (let squareNumber of squaresToMoveTo) {
-            if (this.board.squares[squareNumber - 1] === 'occupied') {
-                keepMoving = false;
-            }
-        }
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
-        } else if (this.currentShape.classes.includes('i') && height > (bottom + 20)) {
-            keepMoving = false;
-        } else if (!this.currentShape.classes.includes('i') && height > bottom) {
-            keepMoving = false;
-        }
-
-        if (keepMoving === false) {
+        if (this.shapeShouldBecomeFixed()) {
             clearInterval(this.floatDownInterval);
             this.currentShape.updateState('fixed');
             this.board.update(this.currentShape.position);
         } else {
+            let height = this.currentShape.height + 20;
+            let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             this.currentShape.shape.style.top = height + 'px';
             this.currentShape.height = height;
             this.currentShape.position = squaresToMoveTo;
+
             if (this.shapeShouldBecomeFixed()) {
                 clearInterval(this.floatDownInterval);
                 this.currentShape.updateState('fixed');
                 this.board.update(this.currentShape.position);
+                this.getNewShape();
+                this.play();
             }
-        }
-
-        if (this.currentShape.state === 'fixed') {
-            this.getNewShape();
-            this.play();
         }
     }
 
@@ -105,39 +87,14 @@ class Game {
                 keepMoving = false;
             }
         }
-        if (keepMoving) {
-            let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
-            xPos += 20;
-            this.currentShape.shape.style.left = xPos + 'px';
-            this.currentShape.position = squaresToMoveTo;
-
-            if (this.shapeShouldBecomeFixed()) {
-                this.currentShape.updateState('fixed');
-                this.board.update(this.currentShape.position);
-                clearInterval(this.floatDownInterval);
-                this.getNewShape();
-                this.play();
-            }
-        }
-    }
-
-    slideDown() {
-        console.log('time to slide down');
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-        let keepMoving = true;
-        for (let squareNumber of squaresToMoveTo) {
-            if (this.board.squares[squareNumber - 1] === 'occupied') {
-                keepMoving = false;
-            }
-        }
         if (this.currentShape.state === 'fixed') {
             keepMoving = false;
         }
 
         if (keepMoving) {
-            let height = this.currentShape.height + 20;
-            this.currentShape.shape.style.top = height + 'px';
-            this.currentShape.height = height;
+            let xPos = Number(this.currentShape.shape.style.left.slice(0, -2));
+            xPos += 20;
+            this.currentShape.shape.style.left = xPos + 'px';
             this.currentShape.position = squaresToMoveTo;
 
             if (this.shapeShouldBecomeFixed()) {
