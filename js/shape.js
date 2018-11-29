@@ -1,10 +1,10 @@
 class Shape {
     constructor(id) {
         this.id = id;
-        this.shape = this.getRandomShape(this.createShapes(this.id));
-        this.classes = Array.from(this.shape.classList);
+        this.element = this.getRandomShape(this.createShapes(this.id));
+        this.classes = Array.from(this.element.classList);
         this.position = this.getStartingPosition();
-        this.height = Number(this.shape.style.top.slice(0, -2));
+        this.height = Number(this.element.style.top.slice(0, -2));
         this.state = 'moving';
     }
 
@@ -32,11 +32,11 @@ class Shape {
     }
 
     positionSelf() {
-        this.shape.style.position = 'absolute';
-        this.shape.style.top = '0px';
-        if (this.classes.includes('i')) this.shape.style.left = '80px';
-        else this.shape.style.left = '100px';
-        document.getElementById('grid').appendChild(this.shape);
+        this.element.style.position = 'absolute';
+        this.element.style.top = '0px';
+        if (this.classes.includes('i')) this.element.style.left = '80px';
+        else this.element.style.left = '100px';
+        document.getElementById('grid').appendChild(this.element);
     }
 
     getStartingPosition() {
