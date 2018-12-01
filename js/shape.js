@@ -42,7 +42,7 @@ class Shape {
         let inhabitedSquares;
         if (this.classes.includes('i')) inhabitedSquares = [[0, 4], [0, 5], [0, 6], [0, 7]];
         else if (this.classes.includes('o')) inhabitedSquares = [[0, 5], [0, 6], [1, 5], [1, 6]];
-        else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 7], [1, 8]];
+        else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 6], [1, 7]];
         else if (this.classes.includes('t')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 6]];
         else if (this.classes.includes('l')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 5]];
         return inhabitedSquares;
