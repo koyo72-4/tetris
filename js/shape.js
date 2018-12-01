@@ -75,6 +75,10 @@ class Shape {
         this.element.style[styleProperty] = currentValue + 'px';
     }
 
+    updatePosition(squares) {
+        this.position = squares;
+    }
+
     updateState(state) {
         this.state = state === 'moving' ? 'moving' : 'fixed';
     }

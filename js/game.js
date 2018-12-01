@@ -36,7 +36,7 @@ class Game {
             this.board.update(this.currentShape.position);
         } else {
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-            this.currentShape.position = squaresToMoveTo;
+            this.currentShape.updatePosition(squaresToMoveTo);
             this.currentShape.draw('top', 20);
 
             if (this.shapeShouldBecomeFixed()) {
@@ -62,7 +62,7 @@ class Game {
         }
 
         if (keepMoving) {
-            this.currentShape.position = squaresToMoveTo;
+            this.currentShape.updatePosition(squaresToMoveTo);
             this.currentShape.draw('left', -20);
 
             if (this.shapeShouldBecomeFixed()) {
@@ -88,7 +88,7 @@ class Game {
         }
 
         if (keepMoving) {
-            this.currentShape.position = squaresToMoveTo;
+            this.currentShape.updatePosition(squaresToMoveTo);
             this.currentShape.draw('left', 20);
 
             if (this.shapeShouldBecomeFixed()) {
