@@ -31,7 +31,7 @@ class Shape {
         return possibleShapes[Math.floor(Math.random() * 5)];
     }
 
-    positionSelf() {
+    drawAtStart() {
         this.element.style.position = 'absolute';
         this.element.style.top = '0px';
         if (this.classes.includes('i')) this.element.style.left = '80px';

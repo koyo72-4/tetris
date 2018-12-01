@@ -13,7 +13,7 @@ class Game {
     }
 
     start() {
-        this.board.draw();
+        this.board.drawAtStart();
 
         window.addEventListener('keydown', function() {
             if (event.key === 'ArrowLeft') this.slideLeft();
@@ -21,7 +21,7 @@ class Game {
             else if (event.key === 'ArrowDown') this.drop();
         }.bind(this));
 
-        this.currentShape.positionSelf();
+        this.currentShape.drawAtStart();
         this.play();
     }
  
@@ -120,6 +120,6 @@ class Game {
 
     getNewShape() {
         this.currentShape = new Shape(this.idIterator.next().value);
-        this.currentShape.positionSelf();
+        this.currentShape.drawAtStart();
     }
 }
