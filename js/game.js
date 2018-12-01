@@ -26,25 +26,19 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 10);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 200);
     }
 
     drop() {
         if (this.shapeShouldBecomeFixed()) {
-            clearInterval(this.floatDownInterval);
-            this.currentShape.updateState('fixed');
-            this.board.update(this.currentShape.position);
+            this.stopCurrentShape();
         } else {
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             this.currentShape.updatePosition(squaresToMoveTo);
             this.currentShape.draw('top', 20);
 
             if (this.shapeShouldBecomeFixed()) {
-                clearInterval(this.floatDownInterval);
-                this.currentShape.updateState('fixed');
-                this.board.update(this.currentShape.position);
-                this.getNewShape();
-                this.play();
+                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
@@ -66,11 +60,7 @@ class Game {
             this.currentShape.draw('left', -20);
 
             if (this.shapeShouldBecomeFixed()) {
-                this.currentShape.updateState('fixed');
-                this.board.update(this.currentShape.position);
-                clearInterval(this.floatDownInterval);
-                this.getNewShape();
-                this.play();
+                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
@@ -92,11 +82,7 @@ class Game {
             this.currentShape.draw('left', 20);
 
             if (this.shapeShouldBecomeFixed()) {
-                this.currentShape.updateState('fixed');
-                this.board.update(this.currentShape.position);
-                clearInterval(this.floatDownInterval);
-                this.getNewShape();
-                this.play();
+                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
@@ -115,5 +101,17 @@ class Game {
     getNewShape() {
         this.currentShape = new Shape(this.idIterator.next().value);
         this.currentShape.drawAtStart();
+    }
+
+    stopCurrentShape() {
+        clearInterval(this.floatDownInterval);
+        this.currentShape.updateState('fixed');
+        this.board.update(this.currentShape.position);
+    }
+
+    stopCurrentShapeAndReleaseNewShape() {
+        this.stopCurrentShape();
+        this.getNewShape();
+        this.play();
     }
 }
