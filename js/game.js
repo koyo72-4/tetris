@@ -115,12 +115,6 @@ class Game {
                     return true;
             }
         }
-        let height = this.currentShape.height + 20;
-        if (this.currentShape.classes.includes('i') && height > (bottom + 20)) {
-            return true;
-        } else if (!this.currentShape.classes.includes('i') && height > bottom) {
-            return true;
-        }
         return false;
     }
 
