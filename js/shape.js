@@ -4,7 +4,6 @@ class Shape {
         this.element = this.getRandomShape(this.createShapes(this.id));
         this.classes = Array.from(this.element.classList);
         this.position = this.getStartingPosition();
-        this.height = Number(this.element.style.top.slice(0, -2));
         this.state = 'moving';
     }
 
@@ -68,6 +67,12 @@ class Shape {
             return [square[0], square[1] + 1];
         });
         return nextSquares;
+    }
+
+    draw(styleProperty, incrementAmount) {
+        let currentValue = Number(this.element.style[styleProperty].slice(0, -2));
+        currentValue += incrementAmount;
+        this.element.style[styleProperty] = currentValue + 'px';
     }
 
     updateState(state) {

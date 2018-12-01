@@ -26,7 +26,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 120);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 10);
     }
 
     drop() {
@@ -35,11 +35,9 @@ class Game {
             this.currentShape.updateState('fixed');
             this.board.update(this.currentShape.position);
         } else {
-            let height = this.currentShape.height + 20;
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-            this.currentShape.element.style.top = height + 'px';
-            this.currentShape.height = height;
             this.currentShape.position = squaresToMoveTo;
+            this.currentShape.draw('top', 20);
 
             if (this.shapeShouldBecomeFixed()) {
                 clearInterval(this.floatDownInterval);
@@ -64,10 +62,8 @@ class Game {
         }
 
         if (keepMoving) {
-            let xPos = Number(this.currentShape.element.style.left.slice(0, -2));
-            xPos -= 20;
-            this.currentShape.element.style.left = xPos + 'px';
             this.currentShape.position = squaresToMoveTo;
+            this.currentShape.draw('left', -20);
 
             if (this.shapeShouldBecomeFixed()) {
                 this.currentShape.updateState('fixed');
@@ -92,10 +88,8 @@ class Game {
         }
 
         if (keepMoving) {
-            let xPos = Number(this.currentShape.element.style.left.slice(0, -2));
-            xPos += 20;
-            this.currentShape.element.style.left = xPos + 'px';
             this.currentShape.position = squaresToMoveTo;
+            this.currentShape.draw('left', 20);
 
             if (this.shapeShouldBecomeFixed()) {
                 this.currentShape.updateState('fixed');
