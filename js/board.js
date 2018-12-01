@@ -5,15 +5,19 @@ class Board {
 
     initialize() {
         let board = [];
-        for (let i = 1; i <= 240; i++) {
-            board.push(i);
+        for (let i = 0; i < 20; i++) {
+            let row = [];
+            for (let i = 0; i < 12; i++) {
+                row.push(null);
+            }
+            board.push(row);
         }
         return board;
     }
 
     draw() {
         let grid = document.getElementById('grid');
-        for (let i = 1; i <= 240; i++) {
+        for (let i = 0; i < 240; i++) {
             let square = document.createElement('div');
             square.classList.add('square');
             grid.appendChild(square);
@@ -21,8 +25,8 @@ class Board {
     }
 
     update(occupiedSquares) {
-        for (let squareNumber of occupiedSquares) {
-            this.squares[squareNumber - 1] = 'occupied';
+        for (let square of occupiedSquares) {
+            this.squares[square[0]][square[1]] = 'occupied';
         }
     }
 }

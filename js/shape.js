@@ -41,31 +41,31 @@ class Shape {
 
     getStartingPosition() {
         let inhabitedSquares;
-        if (this.classes.includes('i')) inhabitedSquares = [5, 6, 7, 8];
-        else if (this.classes.includes('o')) inhabitedSquares = [6, 7, 18, 19];
-        else if (this.classes.includes('z')) inhabitedSquares = [6, 7, 19, 20];
-        else if (this.classes.includes('t')) inhabitedSquares = [6, 7, 8, 19];
-        else if (this.classes.includes('l')) inhabitedSquares = [6, 7, 8, 18];
+        if (this.classes.includes('i')) inhabitedSquares = [[0, 4], [0, 5], [0, 6], [0, 7]];
+        else if (this.classes.includes('o')) inhabitedSquares = [[0, 5], [0, 6], [1, 5], [1, 6]];
+        else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 7], [1, 8]];
+        else if (this.classes.includes('t')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 6]];
+        else if (this.classes.includes('l')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 5]];
         return inhabitedSquares;
     }
 
     getNextPositionGoingDown() {
-        let nextSquares = this.position.map(squareNumber => {
-            return squareNumber + 12;
+        let nextSquares = this.position.map(square => {
+            return [square[0] + 1, square[1]];
         });
         return nextSquares;
     }
 
     getNextPositionGoingLeft() {
-        let nextSquares = this.position.map(squareNumber => {
-            return squareNumber - 1;
+        let nextSquares = this.position.map(square => {
+            return [square[0], square[1] - 1];
         });
         return nextSquares;
     }
 
     getNextPositionGoingRight() {
-        let nextSquares = this.position.map(squareNumber => {
-            return squareNumber + 1;
+        let nextSquares = this.position.map(square => {
+            return [square[0], square[1] + 1];
         });
         return nextSquares;
     }
