@@ -26,7 +26,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 200);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 500);
     }
 
     drop() {
@@ -47,7 +47,7 @@ class Game {
         let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
         let keepMoving = true;
         for (let square of squaresToMoveTo) {
-            if (this.board.squares[square[0]][square[1]] === 'occupied') {
+            if (square[1] < 0 || this.board.squares[square[0]][square[1]] === 'occupied') {
                 keepMoving = false;
             }
         }
@@ -69,7 +69,7 @@ class Game {
         let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
         let keepMoving = true;
         for (let square of squaresToMoveTo) {
-            if (this.board.squares[square[0]][square[1]] === 'occupied') {
+            if (square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
                 keepMoving = false;
             }
         }
@@ -90,9 +90,8 @@ class Game {
     shapeShouldBecomeFixed() {
         let squaresToMoveToNext = this.currentShape.getNextPositionGoingDown();
         for (let square of squaresToMoveToNext) {
-            if (this.board.squares[square[0]] === undefined || 
-                this.board.squares[square[0]][square[1]] === 'occupied') {
-                    return true;
+            if (square[0] >= 20 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                return true;
             }
         }
         return false;
