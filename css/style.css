@@ -28,46 +28,26 @@ body {
     z-index: 5;
 }
 
-.square {
+.filled {
     border: 1px outset white;
 }
 
-.i .square.filled {
+.i .filled {
     background-color: red;
 }
 
-.o .square.filled {
+.o .filled {
     background-color: pink;
 }
 
-/* .o .square:nth-child(3) {
-    grid-column-start: 1;
-    grid-column-end: 2;
-} */
-
-.z .square.filled {
+.z .filled {
     background-color: orange;
 }
 
-/* .z .square:nth-child(3) {
-    grid-column-start: 2;
-    grid-column-end: 3;
-} */
-
-.l .square.filled {
+.l .filled {
     background-color: purple;
 }
 
-/* .l .square:nth-child(4) {
-    grid-column-start: 1;
-    grid-column-end: 2;
-} */
-
-.t .square.filled {
+.t .filled {
     background-color: yellow;
 }
-
-/* .t .square:nth-child(4) {
-    grid-column-start: 2;
-    grid-column-end: 3;
-} */

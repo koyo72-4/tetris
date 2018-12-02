@@ -3,6 +3,7 @@ class Shape {
         this.id = id;
         this.element = this.getRandomShape(this.createShapes(this.id));
         this.classes = Array.from(this.element.classList);
+        this.squares = Array.from(this.element.children);
         this.position = this.getStartingPosition();
         this.state = 'moving';
     }
@@ -17,7 +18,6 @@ class Shape {
             shape.id = name + id;
             for (let i = 0; i < 16; i++) {
                 let square = document.createElement('div');
-                square.classList.add('square');
                 shape.appendChild(square);
             }
             return shape;
@@ -32,21 +32,19 @@ class Shape {
 
     drawAtStart() {
         this.element.style.position = 'absolute';
-        this.element.style.top = '0px';
-        if (this.classes.includes('i')) this.element.style.left = '80px';
-        else this.element.style.left = '100px';
+        this.element.style.top = '-20px';
+        this.element.style.left = '80px';
+        for (let i = 0; i < this.position.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.position[i][j].type === 'filled') {
+                    this.squares[i * 4 + j].classList.add('filled');
+                } else {
+                    this.squares[i * 4 + j].classList.remove('filled');
+                }
+            }
+        }
         document.getElementById('grid').appendChild(this.element);
     }
-
-    // getStartingPosition() {
-    //     let inhabitedSquares;
-    //     if (this.classes.includes('i')) inhabitedSquares = [[0, 4], [0, 5], [0, 6], [0, 7]];
-    //     else if (this.classes.includes('o')) inhabitedSquares = [[0, 5], [0, 6], [1, 5], [1, 6]];
-    //     else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 6], [1, 7]];
-    //     else if (this.classes.includes('t')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 6]];
-    //     else if (this.classes.includes('l')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 5]];
-    //     return inhabitedSquares;
-    // }
 
     getStartingPosition() {
         let inhabitedSquares;
@@ -67,7 +65,7 @@ class Shape {
         } else if (this.classes.includes('z')) {
             inhabitedSquares = [
                 [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
-                [ {square: [0, 4], type: 'filled'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'empty'}, {square: [0, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'filled'}, {square: [0, 7], type: 'empty'}],
                 [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'filled'}, {square: [1, 7], type: 'filled'}],
                 [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
             ];
@@ -90,22 +88,28 @@ class Shape {
     }
 
     getNextPositionGoingDown() {
-        let nextSquares = this.position.map(square => {
-            return [square[0] + 1, square[1]];
+        let nextSquares = this.position.map(row => {
+            return row.map(({ square, type }) => {
+                return { square: [square[0] + 1, square[1]], type };
+            });
         });
         return nextSquares;
     }
 
     getNextPositionGoingLeft() {
-        let nextSquares = this.position.map(square => {
-            return [square[0], square[1] - 1];
+        let nextSquares = this.position.map(row => {
+            return row.map(({ square, type }) => {
+                return { square: [square[0], square[1] - 1], type };
+            });
         });
         return nextSquares;
     }
 
     getNextPositionGoingRight() {
-        let nextSquares = this.position.map(square => {
-            return [square[0], square[1] + 1];
+        let nextSquares = this.position.map(row => {
+            return row.map(({ square, type }) => {
+                return { square: [square[0], square[1] + 1], type };
+            });
         });
         return nextSquares;
     }

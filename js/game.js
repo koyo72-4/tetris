@@ -50,9 +50,14 @@ class Game {
         }
         
         let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
-        for (let square of squaresToMoveTo) {
-            if (square[1] < 0 || this.board.squares[square[0]][square[1]] === 'occupied') {
-                keepMoving = false;
+        for (let row of squaresToMoveTo) {
+            for (let i = 0; i < row.length; i++) {
+                let { square, type } = row[i];
+                if (type === 'filled') {
+                    if (square[1] < 0 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                        keepMoving = false;
+                    }
+                }
             }
         }
 
@@ -73,9 +78,14 @@ class Game {
         }
 
         let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
-        for (let square of squaresToMoveTo) {
-            if (square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
-                keepMoving = false;
+        for (let row of squaresToMoveTo) {
+            for (let i = 0; i < row.length; i++) {
+                let { square, type } = row[i];
+                if (type === 'filled') {
+                    if (square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                        keepMoving = false;
+                    }
+                }
             }
         }
 
@@ -91,9 +101,14 @@ class Game {
 
     shapeShouldBecomeFixed() {
         let squaresToMoveToNext = this.currentShape.getNextPositionGoingDown();
-        for (let square of squaresToMoveToNext) {
-            if (square[0] >= 20 || this.board.squares[square[0]][square[1]] === 'occupied') {
-                return true;
+        for (let row of squaresToMoveToNext) {
+            for (let i = 0; i < row.length; i++) {
+                let { square, type } = row[i];
+                if (type === 'filled') {
+                    if (square[0] >= 20 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                        return true;
+                    }
+                }
             }
         }
         return false;

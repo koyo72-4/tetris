@@ -25,8 +25,13 @@ class Board {
     }
 
     update(occupiedSquares) {
-        for (let square of occupiedSquares) {
-            this.squares[square[0]][square[1]] = 'occupied';
+        for (let row of occupiedSquares) {
+            for (let i = 0; i < row.length; i++) {
+                let { square, type } = row[i];
+                if (type === 'filled') {
+                    this.squares[square[0]][square[1]] = 'occupied';
+                }
+            }
         }
     }
 }
