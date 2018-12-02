@@ -5,6 +5,7 @@ class Shape {
         this.classes = Array.from(this.element.classList);
         this.squares = Array.from(this.element.children);
         this.position = this.getStartingPosition();
+        this.degrees = 0;
         this.state = 'moving';
     }
 
@@ -30,19 +31,115 @@ class Shape {
         return possibleShapes[Math.floor(Math.random() * 5)];
     }
 
+    getNextPositionAsRotated() {
+        let positionToRotateTo = this.position.slice();
+
+        if (this.classes.includes('i') && this.degrees === 0) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 1 ||
+                        i === 1 && j === 1 ||
+                        i === 2 && j === 1 ||
+                        i === 3 && j === 1
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('i') && this.degrees === 180) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 0 ||
+                        i === 0 && j === 1 ||
+                        i === 0 && j === 2 ||
+                        i === 0 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('o')) {
+            return null;
+        } else if (this.classes.includes('z') && this.degrees === 0) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 2 && j === 1
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('z') && this.degrees === 90) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 1 ||
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('z') && this.degrees === 180) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 3 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3 ||
+                        i === 2 && j === 2
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('z') && this.degrees === 270) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 2 && j === 2 ||
+                        i === 2 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        }
+    }
+
     drawAtStart() {
         this.element.style.position = 'absolute';
         this.element.style.top = '-20px';
         this.element.style.left = '80px';
-        for (let i = 0; i < this.position.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                if (this.position[i][j].type === 'filled') {
-                    this.squares[i * 4 + j].classList.add('filled');
-                } else {
-                    this.squares[i * 4 + j].classList.remove('filled');
-                }
-            }
-        }
+        this.rotate();
         document.getElementById('grid').appendChild(this.element);
     }
 
@@ -114,10 +211,23 @@ class Shape {
         return nextSquares;
     }
 
-    draw(styleProperty, incrementAmount) {
+    shift(styleProperty, incrementAmount) {
         let currentValue = Number(this.element.style[styleProperty].slice(0, -2));
         currentValue += incrementAmount;
         this.element.style[styleProperty] = currentValue + 'px';
+    }
+
+    rotate() {
+        for (let i = 0; i < this.position.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.position[i][j].type === 'filled') {
+                    this.squares[i * 4 + j].classList.add('filled');
+                } else {
+                    this.squares[i * 4 + j].classList.remove('filled');
+                }
+            }
+        }
+        this.degrees = (this.degrees + 90) % 360;
     }
 
     updatePosition(squares) {

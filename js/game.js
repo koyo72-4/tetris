@@ -19,6 +19,7 @@ class Game {
             if (event.key === 'ArrowLeft') this.slideLeft();
             else if (event.key === 'ArrowRight') this.slideRight();
             else if (event.key === 'ArrowDown') this.drop();
+            else if (event.key === 'ArrowUp') this.rotateShape();
         }.bind(this));
 
         this.currentShape.drawAtStart();
@@ -26,7 +27,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 500);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 300);
     }
 
     drop() {
@@ -35,7 +36,7 @@ class Game {
         } else {
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.draw('top', 20);
+            this.currentShape.shift('top', 20);
 
             if (this.shapeShouldBecomeFixed()) {
                 this.stopCurrentShapeAndReleaseNewShape();
@@ -63,7 +64,7 @@ class Game {
 
         if (keepMoving) {
             this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.draw('left', -20);
+            this.currentShape.shift('left', -20);
 
             if (this.shapeShouldBecomeFixed()) {
                 this.stopCurrentShapeAndReleaseNewShape();
@@ -91,10 +92,25 @@ class Game {
 
         if (keepMoving) {
             this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.draw('left', 20);
+            this.currentShape.shift('left', 20);
 
             if (this.shapeShouldBecomeFixed()) {
                 this.stopCurrentShapeAndReleaseNewShape();
+            }
+        }
+    }
+
+    rotateShape() {
+        let keepMoving = true;
+        if (this.currentShape.state === 'fixed') {
+            keepMoving = false;
+        }
+
+        if (keepMoving) {
+            let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
+            if (squaresToMoveTo) {
+                this.currentShape.updatePosition(squaresToMoveTo);
+                this.currentShape.rotate();
             }
         }
     }
