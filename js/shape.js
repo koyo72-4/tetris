@@ -10,7 +10,8 @@ class Shape {
     }
 
     createShapes(id) {
-        let shapeNames = ['i', 'o', 'z', 't', 'l'];
+        // let shapeNames = ['i', 'o', 'z', 't', 'l'];
+        let shapeNames = ['i', 'z'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
@@ -28,7 +29,8 @@ class Shape {
     }
 
     getRandomShape(possibleShapes) {
-        return possibleShapes[Math.floor(Math.random() * 5)];
+        // return possibleShapes[Math.floor(Math.random() * 5)];
+        return possibleShapes[Math.floor(Math.random() * 2)];
     }
 
     getNextPositionAsRotated() {
@@ -54,10 +56,10 @@ class Shape {
             for (let i = 0; i < positionToRotateTo.length; i++) {
                 for (let j = 0; j < 4; j++) {
                     if (
-                        i === 0 && j === 0 ||
-                        i === 0 && j === 1 ||
-                        i === 0 && j === 2 ||
-                        i === 0 && j === 3
+                        i === 1 && j === 0 ||
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3
                     ) {
                         positionToRotateTo[i][j].type = 'filled';
                     } else {
@@ -139,7 +141,15 @@ class Shape {
         this.element.style.position = 'absolute';
         this.element.style.top = '-20px';
         this.element.style.left = '80px';
-        this.rotate();
+        for (let i = 0; i < this.position.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.position[i][j].type === 'filled') {
+                    this.squares[i * 4 + j].classList.add('filled');
+                } else {
+                    this.squares[i * 4 + j].classList.remove('filled');
+                }
+            }
+        }
         document.getElementById('grid').appendChild(this.element);
     }
 
@@ -227,7 +237,11 @@ class Shape {
                 }
             }
         }
-        this.degrees = (this.degrees + 90) % 360;
+        if (this.classes.includes('i')) {
+            this.degrees = (this.degrees + 180) % 360;
+        } else {
+            this.degrees = (this.degrees + 90) % 360;
+        }
     }
 
     updatePosition(squares) {

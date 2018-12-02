@@ -27,7 +27,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 300);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 2000);
     }
 
     drop() {
