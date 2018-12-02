@@ -16,7 +16,7 @@ body {
     position: relative;
 }
 
-.square {
+.grid-square {
     background-color: black;
     border: 1px outset white;
 }
@@ -24,46 +24,50 @@ body {
 .shape {
     display: grid;
     grid-template-columns: repeat(4, 20px);
-    grid-template-rows: repeat(2, 20px);
+    grid-template-rows: repeat(4, 20px);
     z-index: 5;
 }
 
-.i .square {
+.square {
+    border: 1px outset white;
+}
+
+.i .square.filled {
     background-color: red;
 }
 
-.o .square {
+.o .square.filled {
     background-color: pink;
 }
 
-.o .square:nth-child(3) {
+/* .o .square:nth-child(3) {
     grid-column-start: 1;
     grid-column-end: 2;
-}
+} */
 
-.z .square {
+.z .square.filled {
     background-color: orange;
 }
 
-.z .square:nth-child(3) {
+/* .z .square:nth-child(3) {
     grid-column-start: 2;
     grid-column-end: 3;
-}
+} */
 
-.l .square {
+.l .square.filled {
     background-color: purple;
 }
 
-.l .square:nth-child(4) {
+/* .l .square:nth-child(4) {
     grid-column-start: 1;
     grid-column-end: 2;
-}
+} */
 
-.t .square {
+.t .square.filled {
     background-color: yellow;
 }
 
-.t .square:nth-child(4) {
+/* .t .square:nth-child(4) {
     grid-column-start: 2;
     grid-column-end: 3;
-}
+} */

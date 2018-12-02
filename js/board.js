@@ -18,9 +18,9 @@ class Board {
     drawAtStart() {
         let grid = document.getElementById('grid');
         for (let i = 0; i < 240; i++) {
-            let square = document.createElement('div');
-            square.classList.add('square');
-            grid.appendChild(square);
+            let gridSquare = document.createElement('div');
+            gridSquare.classList.add('grid-square');
+            grid.appendChild(gridSquare);
         }
     }
 

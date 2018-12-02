@@ -44,15 +44,16 @@ class Game {
     }
 
     slideLeft() {
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
         let keepMoving = true;
+        if (this.currentShape.state === 'fixed') {
+            keepMoving = false;
+        }
+        
+        let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
         for (let square of squaresToMoveTo) {
             if (square[1] < 0 || this.board.squares[square[0]][square[1]] === 'occupied') {
                 keepMoving = false;
             }
-        }
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
         }
 
         if (keepMoving) {
@@ -66,15 +67,16 @@ class Game {
     }
 
     slideRight() {
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
         let keepMoving = true;
+        if (this.currentShape.state === 'fixed') {
+            keepMoving = false;
+        }
+
+        let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
         for (let square of squaresToMoveTo) {
             if (square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
                 keepMoving = false;
             }
-        }
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
         }
 
         if (keepMoving) {

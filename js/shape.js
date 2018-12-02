@@ -15,7 +15,7 @@ class Shape {
             shape.classList.add('shape');
             shape.classList.add(name);
             shape.id = name + id;
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 16; i++) {
                 let square = document.createElement('div');
                 square.classList.add('square');
                 shape.appendChild(square);
@@ -38,13 +38,54 @@ class Shape {
         document.getElementById('grid').appendChild(this.element);
     }
 
+    // getStartingPosition() {
+    //     let inhabitedSquares;
+    //     if (this.classes.includes('i')) inhabitedSquares = [[0, 4], [0, 5], [0, 6], [0, 7]];
+    //     else if (this.classes.includes('o')) inhabitedSquares = [[0, 5], [0, 6], [1, 5], [1, 6]];
+    //     else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 6], [1, 7]];
+    //     else if (this.classes.includes('t')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 6]];
+    //     else if (this.classes.includes('l')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 5]];
+    //     return inhabitedSquares;
+    // }
+
     getStartingPosition() {
         let inhabitedSquares;
-        if (this.classes.includes('i')) inhabitedSquares = [[0, 4], [0, 5], [0, 6], [0, 7]];
-        else if (this.classes.includes('o')) inhabitedSquares = [[0, 5], [0, 6], [1, 5], [1, 6]];
-        else if (this.classes.includes('z')) inhabitedSquares = [[0, 5], [0, 6], [1, 6], [1, 7]];
-        else if (this.classes.includes('t')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 6]];
-        else if (this.classes.includes('l')) inhabitedSquares = [[0, 5], [0, 6], [0, 7], [1, 5]];
+        if (this.classes.includes('i')) {
+            inhabitedSquares = [
+                [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'filled'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'filled'}, {square: [0, 7], type: 'filled'}],
+                [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'empty'}, {square: [1, 7], type: 'empty'}],
+                [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
+            ];
+        } else if (this.classes.includes('o')) {
+            inhabitedSquares = [
+                [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'filled'}, {square: [0, 7], type: 'empty'}],
+                [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'filled'}, {square: [1, 6], type: 'filled'}, {square: [1, 7], type: 'empty'}],
+                [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
+            ];
+        } else if (this.classes.includes('z')) {
+            inhabitedSquares = [
+                [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'filled'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'empty'}, {square: [0, 7], type: 'empty'}],
+                [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'filled'}, {square: [1, 7], type: 'filled'}],
+                [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
+            ];
+        } else if (this.classes.includes('t')) {
+            inhabitedSquares = [
+                [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'filled'}, {square: [0, 7], type: 'filled'}],
+                [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'filled'}, {square: [1, 7], type: 'empty'}],
+                [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
+            ];
+        } else if (this.classes.includes('l')) {
+            inhabitedSquares = [
+                [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
+                [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'filled'}, {square: [0, 6], type: 'filled'}, {square: [0, 7], type: 'filled'}],
+                [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'filled'}, {square: [1, 6], type: 'empty'}, {square: [1, 7], type: 'empty'}],
+                [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
+            ];
+        }
         return inhabitedSquares;
     }
 
