@@ -10,8 +10,7 @@ class Shape {
     }
 
     createShapes(id) {
-        // let shapeNames = ['i', 'o', 'z', 't', 'l'];
-        let shapeNames = ['i', 'z'];
+        let shapeNames = ['i', 'o', 'z', 't', 'l'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
@@ -29,8 +28,7 @@ class Shape {
     }
 
     getRandomShape(possibleShapes) {
-        // return possibleShapes[Math.floor(Math.random() * 5)];
-        return possibleShapes[Math.floor(Math.random() * 2)];
+        return possibleShapes[Math.floor(Math.random() * 5)];
     }
 
     getNextPositionAsRotated() {
@@ -134,6 +132,134 @@ class Shape {
                 }
             }
             return positionToRotateTo;
+        } else if (this.classes.includes('t') && this.degrees === 0) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 2 && j === 2
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('t') && this.degrees === 90) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('t') && this.degrees === 180) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3 ||
+                        i === 2 && j === 2
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('t') && this.degrees === 270) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3 ||
+                        i === 2 && j === 2
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('l') && this.degrees === 0) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 1 ||
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 2 ||
+                        i === 2 && j === 2
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('l') && this.degrees === 90) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 3 ||
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('l') && this.degrees === 180) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 0 && j === 2 ||
+                        i === 1 && j === 2 ||
+                        i === 2 && j === 2 ||
+                        i === 2 && j === 3
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
+        } else if (this.classes.includes('l') && this.degrees === 270) {
+            for (let i = 0; i < positionToRotateTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (
+                        i === 1 && j === 1 ||
+                        i === 1 && j === 2 ||
+                        i === 1 && j === 3 ||
+                        i === 2 && j === 1
+                    ) {
+                        positionToRotateTo[i][j].type = 'filled';
+                    } else {
+                        positionToRotateTo[i][j].type = 'empty';
+                    }
+                }
+            }
+            return positionToRotateTo;
         }
     }
 
@@ -225,18 +351,6 @@ class Shape {
         let currentValue = Number(this.element.style[styleProperty].slice(0, -2));
         currentValue += incrementAmount;
         this.element.style[styleProperty] = currentValue + 'px';
-        // if (Array.from(this.element.querySelectorAll('.filled')).length !== 4) {
-        //     console.log('in the if');
-        //     for (let i = 0; i < this.position.length; i++) {
-        //         for (let j = 0; j < 4; j++) {
-        //             if (this.position[i][j].type === 'filled' && this.position[i][j].square[0] >= 0) {
-        //                 this.squares[i * 4 + j].classList.add('filled');
-        //             } else {
-        //                 this.squares[i * 4 + j].classList.remove('filled');
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     rotate() {
