@@ -34,7 +34,7 @@ class Shape {
     }
 
     getNextPositionAsRotated() {
-        let positionToRotateTo = this.position.slice();
+        let positionToRotateTo = JSON.parse(JSON.stringify(this.position));
 
         if (this.classes.includes('i') && this.degrees === 0) {
             for (let i = 0; i < positionToRotateTo.length; i++) {
@@ -242,6 +242,18 @@ class Shape {
         } else {
             this.degrees = (this.degrees + 90) % 360;
         }
+    }
+
+    getOutermostColumns() {
+        let columns = [];
+        for (let i = 0; i < this.position.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.position[i][j].type === 'filled') {
+                    columns.push(this.position[i][j].square[1]);
+                }
+            }
+        }
+        return [Math.min(...columns), Math.max(...columns)];
     }
 
     updatePosition(squares) {

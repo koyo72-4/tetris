@@ -106,13 +106,175 @@ class Game {
             keepMoving = false;
         }
 
-        if (keepMoving) {
-            let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
-            if (squaresToMoveTo) {
-                this.currentShape.updatePosition(squaresToMoveTo);
-                this.currentShape.rotate();
+        let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
+
+        if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180) {
+            let occupiedCount = 0;
+            for (let i = 0; i < squaresToMoveTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    let { square, type } = squaresToMoveTo[i][j];
+                    if (type === 'filled') {
+                        if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                            occupiedCount++;
+                        }
+                    }
+                }
+            }
+            if (occupiedCount === 2) {
+                if (this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount)) {
+                    let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount);
+                    if (slideTwice) {
+                        this.slideLeft();
+                        this.slideLeft();
+                    } else {
+                        this.slideLeft();
+                    }
+                    squaresToMoveTo = newSquares;
+                } else {
+                    keepMoving = false;
+                }
+            } else if (occupiedCount === 1) {
+                for (let i = 0; i < squaresToMoveTo.length; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        let { square, type } = squaresToMoveTo[i][j];
+                        if (type === 'filled') {
+                            if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                                let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
+                                if (square[1] < leftmostColumn) {
+                                    if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
+                                        let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
+                                        this.slideRight();
+                                        squaresToMoveTo = newSquares;
+                                    } else {
+                                        keepMoving = false;
+                                    }
+                                } else if (square[1] > rightmostColumn) {
+                                    if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
+                                        let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
+                                        if (slideTwice) {
+                                            this.slideLeft();
+                                            this.slideLeft();
+                                        } else {
+                                            this.slideLeft();
+                                        }
+                                        squaresToMoveTo = newSquares;
+                                    } else {
+                                        keepMoving = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else {
+            for (let i = 0; i < squaresToMoveTo.length; i++) {
+                for (let j = 0; j < 4; j++) {
+                    let { square, type } = squaresToMoveTo[i][j];
+                    if (type === 'filled') {
+                        if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                            // TO DO: can't yet rotate when shape is at top
+                            let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
+                            if (square[1] < leftmostColumn) {
+                                if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
+                                    let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
+                                    this.slideRight();
+                                    squaresToMoveTo = newSquares;
+                                } else {
+                                    keepMoving = false;
+                                }
+                            } else if (square[1] > rightmostColumn) {
+                                if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
+                                    let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
+                                    if (slideTwice) {
+                                        this.slideLeft();
+                                        this.slideLeft();
+                                    } else {
+                                        this.slideLeft();
+                                    }
+                                    squaresToMoveTo = newSquares;
+                                } else {
+                                    keepMoving = false;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+
+        if (keepMoving && squaresToMoveTo) {
+            this.currentShape.updatePosition(squaresToMoveTo);
+            this.currentShape.rotate();
+
+            if (this.shapeShouldBecomeFixed()) {
+                this.stopCurrentShapeAndReleaseNewShape();
+            }
+        }
+    }
+
+    tryToSlideLeftAndRotate(squaresThatWouldHaveCollided, twoOccupieds) {
+        let squaresToTry;
+        if (twoOccupieds) {
+            squaresToTry = squaresThatWouldHaveCollided.map(row => {
+                return row.map(({ square, type }) => {
+                    return { square: [square[0], square[1] - 2], type };
+                });
+            });
+        } else {
+            squaresToTry = squaresThatWouldHaveCollided.map(row => {
+                return row.map(({ square, type }) => {
+                    return { square: [square[0], square[1] - 1], type };
+                });
+            });
+        }
+
+        for (let i = 0; i < squaresToTry.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                let { square, type } = squaresToTry[i][j];
+                if (type === 'filled') {
+                    if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (twoOccupieds) {
+            return [squaresToTry, true];
+        } else {
+            return [squaresToTry, false];
+        }
+    }
+
+    tryToSlideRightAndRotate(squaresThatWouldHaveCollided) {
+        let squaresToTry;
+        if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180) {
+            squaresToTry = squaresThatWouldHaveCollided.map(row => {
+                return row.map(({ square, type }) => {
+                    return { square: [square[0], square[1] + 2], type };
+                });
+            });
+        } else {
+            squaresToTry = squaresThatWouldHaveCollided.map(row => {
+                return row.map(({ square, type }) => {
+                    return { square: [square[0], square[1] + 1], type };
+                });
+            });
+        }
+
+        for (let i = 0; i < squaresToTry.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                let { square, type } = squaresToTry[i][j];
+                if (type === 'filled') {
+                    if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                        return false;
+                    }
+                }
+            }
+        }
+        return squaresToTry;
     }
 
     shapeShouldBecomeFixed() {
