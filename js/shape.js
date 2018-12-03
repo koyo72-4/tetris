@@ -225,12 +225,24 @@ class Shape {
         let currentValue = Number(this.element.style[styleProperty].slice(0, -2));
         currentValue += incrementAmount;
         this.element.style[styleProperty] = currentValue + 'px';
+        // if (Array.from(this.element.querySelectorAll('.filled')).length !== 4) {
+        //     console.log('in the if');
+        //     for (let i = 0; i < this.position.length; i++) {
+        //         for (let j = 0; j < 4; j++) {
+        //             if (this.position[i][j].type === 'filled' && this.position[i][j].square[0] >= 0) {
+        //                 this.squares[i * 4 + j].classList.add('filled');
+        //             } else {
+        //                 this.squares[i * 4 + j].classList.remove('filled');
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     rotate() {
         for (let i = 0; i < this.position.length; i++) {
             for (let j = 0; j < 4; j++) {
-                if (this.position[i][j].type === 'filled') {
+                if (this.position[i][j].type === 'filled' && this.position[i][j].square[0] >= 0) {
                     this.squares[i * 4 + j].classList.add('filled');
                 } else {
                     this.squares[i * 4 + j].classList.remove('filled');
