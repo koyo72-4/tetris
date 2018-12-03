@@ -27,7 +27,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 400);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 2000);
     }
 
     drop() {
@@ -124,10 +124,10 @@ class Game {
                 if (this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount)) {
                     let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount);
                     if (slideTwice) {
-                        this.slideLeft();
-                        this.slideLeft();
+                        this.currentShape.shift('left', -20);
+                        this.currentShape.shift('left', -20);
                     } else {
-                        this.slideLeft();
+                        this.currentShape.shift('left', -20);
                     }
                     squaresToMoveTo = newSquares;
                 } else {
@@ -141,7 +141,7 @@ class Game {
                             if (square[0] < 0) {
                                 if (this.tryToSlideDownAndRotate(squaresToMoveTo)) {
                                     let newSquares = this.tryToSlideDownAndRotate(squaresToMoveTo);
-                                    this.drop();
+                                    this.currentShape.shift('top', 20);
                                     squaresToMoveTo = newSquares;
                                 } else {
                                     keepMoving = false;
@@ -152,7 +152,7 @@ class Game {
                                     if (square[1] < leftmostColumn) {
                                         if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
                                             let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
-                                            this.slideRight();
+                                            this.currentShape.shift('left', 20);
                                             squaresToMoveTo = newSquares;
                                         } else {
                                             keepMoving = false;
@@ -161,10 +161,10 @@ class Game {
                                         if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
                                             let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
                                             if (slideTwice) {
-                                                this.slideLeft();
-                                                this.slideLeft();
+                                                this.currentShape.shift('left', -20);
+                                                this.currentShape.shift('left', -20);
                                             } else {
-                                                this.slideLeft();
+                                                this.currentShape.shift('left', -20);
                                             }
                                             squaresToMoveTo = newSquares;
                                         } else {
@@ -186,7 +186,7 @@ class Game {
                         if (square[0] < 0) {
                             if (this.tryToSlideDownAndRotate(squaresToMoveTo)) {
                                 let newSquares = this.tryToSlideDownAndRotate(squaresToMoveTo);
-                                this.drop();
+                                this.currentShape.shift('top', 20);
                                 squaresToMoveTo = newSquares;
                             } else {
                                 keepMoving = false;
@@ -197,7 +197,7 @@ class Game {
                                 if (square[1] < leftmostColumn) {
                                     if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
                                         let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
-                                        this.slideRight();
+                                        this.currentShape.shift('left', 20);
                                         squaresToMoveTo = newSquares;
                                     } else {
                                         keepMoving = false;
@@ -206,10 +206,10 @@ class Game {
                                     if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
                                         let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
                                         if (slideTwice) {
-                                            this.slideLeft();
-                                            this.slideLeft();
+                                            this.currentShape.shift('left', -20);
+                                            this.currentShape.shift('left', -20);
                                         } else {
-                                            this.slideLeft();
+                                            this.currentShape.shift('left', -20);
                                         }
                                         squaresToMoveTo = newSquares;
                                     } else {
@@ -288,20 +288,11 @@ class Game {
     }
 
     tryToSlideRightAndRotate(squaresThatWouldHaveCollided) {
-        let squaresToTry;
-        if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180) {
-            squaresToTry = squaresThatWouldHaveCollided.map(row => {
-                return row.map(({ square, type }) => {
-                    return { square: [square[0], square[1] + 2], type };
-                });
+        let squaresToTry = squaresThatWouldHaveCollided.map(row => {
+            return row.map(({ square, type }) => {
+                return { square: [square[0], square[1] + 1], type };
             });
-        } else {
-            squaresToTry = squaresThatWouldHaveCollided.map(row => {
-                return row.map(({ square, type }) => {
-                    return { square: [square[0], square[1] + 1], type };
-                });
-            });
-        }
+        });
 
         for (let i = 0; i < squaresToTry.length; i++) {
             for (let j = 0; j < 4; j++) {
