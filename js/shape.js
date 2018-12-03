@@ -34,233 +34,123 @@ class Shape {
     getNextPositionAsRotated() {
         let positionToRotateTo = JSON.parse(JSON.stringify(this.position));
 
-        if (this.classes.includes('i') && this.degrees === 0) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 1 ||
-                        i === 1 && j === 1 ||
-                        i === 2 && j === 1 ||
-                        i === 3 && j === 1
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
+        for (let i = 0; i < positionToRotateTo.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.classes.includes('o')) {
+                    return null;
+                }
+                const squareShouldBeFilled = checkSquare.bind(this);
+                if (squareShouldBeFilled(i, j)) {
+                    positionToRotateTo[i][j].type = 'filled';
+                } else {
+                    positionToRotateTo[i][j].type = 'empty';
                 }
             }
-            return positionToRotateTo;
-        } else if (this.classes.includes('i') && this.degrees === 180) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 1 && j === 0 ||
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('o')) {
-            return null;
-        } else if (this.classes.includes('z') && this.degrees === 0) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 2 && j === 1
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('z') && this.degrees === 90) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 1 ||
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('z') && this.degrees === 180) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 3 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3 ||
-                        i === 2 && j === 2
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('z') && this.degrees === 270) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 2 && j === 2 ||
-                        i === 2 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('t') && this.degrees === 0) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 2 && j === 2
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('t') && this.degrees === 90) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('t') && this.degrees === 180) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3 ||
-                        i === 2 && j === 2
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('t') && this.degrees === 270) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3 ||
-                        i === 2 && j === 2
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('l') && this.degrees === 0) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 1 ||
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 2 ||
-                        i === 2 && j === 2
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('l') && this.degrees === 90) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 3 ||
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('l') && this.degrees === 180) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 0 && j === 2 ||
-                        i === 1 && j === 2 ||
-                        i === 2 && j === 2 ||
-                        i === 2 && j === 3
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
-        } else if (this.classes.includes('l') && this.degrees === 270) {
-            for (let i = 0; i < positionToRotateTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    if (
-                        i === 1 && j === 1 ||
-                        i === 1 && j === 2 ||
-                        i === 1 && j === 3 ||
-                        i === 2 && j === 1
-                    ) {
-                        positionToRotateTo[i][j].type = 'filled';
-                    } else {
-                        positionToRotateTo[i][j].type = 'empty';
-                    }
-                }
-            }
-            return positionToRotateTo;
         }
+
+        return positionToRotateTo;
+
+        function checkSquare(i, j) {
+            if (this.classes.includes('i') && this.degrees === 0) {
+                return (
+                    i === 0 && j === 1 ||
+                    i === 1 && j === 1 ||
+                    i === 2 && j === 1 ||
+                    i === 3 && j === 1
+                ); 
+            } else if (this.classes.includes('i') && this.degrees === 180) {
+                return (
+                    i === 1 && j === 0 ||
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3
+                );
+            } else if (this.classes.includes('z') && this.degrees === 0) {
+                return (
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 2 && j === 1
+                );
+            } else if (this.classes.includes('z') && this.degrees === 90) {
+                return (
+                    i === 0 && j === 1 ||
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3
+                );
+            } else if (this.classes.includes('z') && this.degrees === 180) {
+                return (
+                    i === 0 && j === 3 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3 ||
+                    i === 2 && j === 2
+                );
+            } else if (this.classes.includes('z') && this.degrees === 270) {
+                return (
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 2 && j === 2 ||
+                    i === 2 && j === 3
+                );
+            } else if (this.classes.includes('t') && this.degrees === 0) {
+                return (
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 2 && j === 2
+                );
+            } else if (this.classes.includes('t') && this.degrees === 90) {
+                return (
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3
+                );
+            } else if (this.classes.includes('t') && this.degrees === 180) {
+                return (
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3 ||
+                    i === 2 && j === 2
+                );
+            } else if (this.classes.includes('t') && this.degrees === 270) {
+                return (
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3 ||
+                    i === 2 && j === 2
+                );
+            } else if (this.classes.includes('l') && this.degrees === 0) {
+                return (
+                    i === 0 && j === 1 ||
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 2 ||
+                    i === 2 && j === 2
+                );
+            } else if (this.classes.includes('l') && this.degrees === 90) {
+                return (
+                    i === 0 && j === 3 ||
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3
+                );
+            } else if (this.classes.includes('l') && this.degrees === 180) {
+                return (
+                    i === 0 && j === 2 ||
+                    i === 1 && j === 2 ||
+                    i === 2 && j === 2 ||
+                    i === 2 && j === 3
+                );
+            } else if (this.classes.includes('l') && this.degrees === 270) {
+                return (
+                    i === 1 && j === 1 ||
+                    i === 1 && j === 2 ||
+                    i === 1 && j === 3 ||
+                    i === 2 && j === 1
+                );
+            }
+        } 
     }
 
     drawAtStart() {
