@@ -55,7 +55,7 @@ class Game {
             for (let i = 0; i < row.length; i++) {
                 let { square, type } = row[i];
                 if (type === 'filled') {
-                    if (square[1] < 0 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (this.board.squareIsOccupied(square)) {
                         keepMoving = false;
                     }
                 }
@@ -83,7 +83,7 @@ class Game {
             for (let i = 0; i < row.length; i++) {
                 let { square, type } = row[i];
                 if (type === 'filled') {
-                    if (square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (this.board.squareIsOccupied(square)) {
                         keepMoving = false;
                     }
                 }
@@ -114,7 +114,7 @@ class Game {
                 for (let j = 0; j < 4; j++) {
                     let { square, type } = squaresToMoveTo[i][j];
                     if (type === 'filled') {
-                        if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                        if (this.board.squareIsOccupied(square)) {  
                                 occupiedCount++;
                             }
                         }
@@ -147,7 +147,7 @@ class Game {
                                     keepMoving = false;
                                 }
                             } else {
-                                if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                                if (this.board.squareIsOccupied(square)) {  
                                     let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
                                     if (square[1] < leftmostColumn) {
                                         if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
@@ -192,7 +192,7 @@ class Game {
                                 keepMoving = false;
                             }
                         } else {
-                            if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {  
+                            if (this.board.squareIsOccupied(square)) {  
                                 let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
                                 if (square[1] < leftmostColumn) {
                                     if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
@@ -244,7 +244,7 @@ class Game {
             for (let j = 0; j < 4; j++) {
                 let { square, type } = squaresToTry[i][j];
                 if (type === 'filled') {
-                    if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (this.board.squareIsOccupied(square)) {
                         return false;
                     }
                 }
@@ -273,7 +273,7 @@ class Game {
             for (let j = 0; j < 4; j++) {
                 let { square, type } = squaresToTry[i][j];
                 if (type === 'filled') {
-                    if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (this.board.squareIsOccupied(square)) {
                         return false;
                     }
                 }
@@ -298,7 +298,7 @@ class Game {
             for (let j = 0; j < 4; j++) {
                 let { square, type } = squaresToTry[i][j];
                 if (type === 'filled') {
-                    if (square[1] < 0 || square[1] >= 12 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (this.board.squareIsOccupied(square)) {
                         return false;
                     }
                 }

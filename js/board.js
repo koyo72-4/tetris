@@ -24,6 +24,10 @@ class Board {
         }
     }
 
+    squareIsOccupied(square) {
+        return square[1] < 0 || square[1] >= 12 || this.squares[square[0]][square[1]] === 'occupied';
+    }
+
     update(occupiedSquares) {
         for (let row of occupiedSquares) {
             for (let i = 0; i < row.length; i++) {
