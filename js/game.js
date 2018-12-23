@@ -45,57 +45,31 @@ class Game {
     }
 
     slideLeft() {
-        let keepMoving = true;
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
-        }
-        
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
-        for (let row of squaresToMoveTo) {
-            for (let i = 0; i < row.length; i++) {
-                let { square, type } = row[i];
-                if (type === 'filled') {
-                    if (this.board.squareIsOccupied(square)) {
-                        keepMoving = false;
-                    }
+        if (this.currentShape.state !== 'fixed') {
+            let squaresToMoveTo = this.currentShape.getNextPositionGoingLeft();
+
+            if (this.shapeCanMove(squaresToMoveTo)) {
+                this.currentShape.updatePosition(squaresToMoveTo);
+                this.currentShape.shift('left', -20);
+
+                if (this.shapeShouldBecomeFixed()) {
+                    this.stopCurrentShapeAndReleaseNewShape();
                 }
-            }
-        }
-
-        if (keepMoving) {
-            this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.shift('left', -20);
-
-            if (this.shapeShouldBecomeFixed()) {
-                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
 
     slideRight() {
-        let keepMoving = true;
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
-        }
+        if (this.currentShape.state !== 'fixed') {
+            let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
 
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingRight();
-        for (let row of squaresToMoveTo) {
-            for (let i = 0; i < row.length; i++) {
-                let { square, type } = row[i];
-                if (type === 'filled') {
-                    if (this.board.squareIsOccupied(square)) {
-                        keepMoving = false;
-                    }
+            if (this.shapeCanMove(squaresToMoveTo)) {
+                this.currentShape.updatePosition(squaresToMoveTo);
+                this.currentShape.shift('left', 20);
+
+                if (this.shapeShouldBecomeFixed()) {
+                    this.stopCurrentShapeAndReleaseNewShape();
                 }
-            }
-        }
-
-        if (keepMoving) {
-            this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.shift('left', 20);
-
-            if (this.shapeShouldBecomeFixed()) {
-                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
@@ -305,6 +279,20 @@ class Game {
             }
         }
         return squaresToTry;
+    }
+
+    shapeCanMove(squaresToMoveTo) {
+        for (let row of squaresToMoveTo) {
+            for (let i = 0; i < row.length; i++) {
+                let { square, type } = row[i];
+                if (type === 'filled') {
+                    if (this.board.squareIsOccupied(square)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     shapeShouldBecomeFixed() {
