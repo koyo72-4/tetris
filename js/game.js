@@ -87,10 +87,7 @@ class Game {
 
             if (numberOfOverlappingSquares === 2) {
                 if (this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo)) {
-                    let newSquares = this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo);
-                    this.currentShape.shift('left', -20);
-                    this.currentShape.shift('left', -20);
-                    squaresToMoveTo = newSquares;
+                    squaresToMoveTo = this.slideAndRotate('left twice', squaresToMoveTo);
                 } else {
                     keepMoving = false;
                 }
@@ -101,9 +98,7 @@ class Game {
                         if (type === 'filled') {
                             if (square[0] < 0) {
                                 if (this.tryToSlideDownAndRotate(squaresToMoveTo)) {
-                                    let newSquares = this.tryToSlideDownAndRotate(squaresToMoveTo);
-                                    this.currentShape.shift('top', 20);
-                                    squaresToMoveTo = newSquares;
+                                    squaresToMoveTo = this.slideAndRotate('down', squaresToMoveTo);
                                 } else {
                                     keepMoving = false;
                                 }
@@ -112,17 +107,13 @@ class Game {
                                     let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
                                     if (square[1] < leftmostColumn) {
                                         if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
-                                            let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
-                                            this.currentShape.shift('left', 20);
-                                            squaresToMoveTo = newSquares;
+                                            squaresToMoveTo = this.slideAndRotate('right', squaresToMoveTo);
                                         } else {
                                             keepMoving = false;
                                         }
                                     } else if (square[1] > rightmostColumn) {
                                         if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
-                                            let newSquares = this.tryToSlideLeftAndRotate(squaresToMoveTo);
-                                            this.currentShape.shift('left', -20);
-                                            squaresToMoveTo = newSquares;
+                                            squaresToMoveTo = this.slideAndRotate('left', squaresToMoveTo);
                                         } else {
                                             keepMoving = false;
                                         }
@@ -141,9 +132,7 @@ class Game {
                     if (type === 'filled') {
                         if (square[0] < 0) {
                             if (this.tryToSlideDownAndRotate(squaresToMoveTo)) {
-                                let newSquares = this.tryToSlideDownAndRotate(squaresToMoveTo);
-                                this.currentShape.shift('top', 20);
-                                squaresToMoveTo = newSquares;
+                                squaresToMoveTo = this.slideAndRotate('down', squaresToMoveTo);
                             } else {
                                 keepMoving = false;
                             }
@@ -152,17 +141,13 @@ class Game {
                                 let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
                                 if (square[1] < leftmostColumn) {
                                     if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
-                                        let newSquares = this.tryToSlideRightAndRotate(squaresToMoveTo);
-                                        this.currentShape.shift('left', 20);
-                                        squaresToMoveTo = newSquares;
+                                        squaresToMoveTo = this.slideAndRotate('right', squaresToMoveTo);
                                     } else {
                                         keepMoving = false;
                                     }
                                 } else if (square[1] > rightmostColumn) {
                                     if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
-                                        let newSquares = this.tryToSlideLeftAndRotate(squaresToMoveTo);
-                                        this.currentShape.shift('left', -20);
-                                        squaresToMoveTo = newSquares;
+                                        squaresToMoveTo = this.slideAndRotate('left', squaresToMoveTo);
                                     } else {
                                         keepMoving = false;
                                     }
@@ -199,13 +184,29 @@ class Game {
         return occupiedCount;
     }
 
+    slideAndRotate(direction, squaresToMoveTo) {
+        if (direction === 'left twice') {
+            this.currentShape.shift('left', -20);
+            this.currentShape.shift('left', -20);
+            return this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo);
+        } else if (direction === 'left') {
+            this.currentShape.shift('left', -20);
+            return this.tryToSlideLeftAndRotate(squaresToMoveTo);
+        } else if (direction === 'right') {
+            this.currentShape.shift('left', 20);
+            return this.tryToSlideRightAndRotate(squaresToMoveTo);
+        } else if (direction === 'down') {
+            this.currentShape.shift('top', 20);
+            return this.tryToSlideDownAndRotate(squaresToMoveTo);
+        }
+    }
+
     tryToSlideDownAndRotate(squaresThatWouldHaveCollided) {
         let squaresToTry = squaresThatWouldHaveCollided.map(row => {
             return row.map(({ square, type }) => {
                 return { square: [square[0] + 1, square[1]], type };
             });
         });
-
         return this.shapeCanMove(squaresToTry);
     }
 
@@ -224,7 +225,6 @@ class Game {
                 return { square: [square[0], square[1] - 2], type };
             });
         });
-
         return this.shapeCanMove(squaresToTry);
     }
 
@@ -234,7 +234,6 @@ class Game {
                 return { square: [square[0], square[1] + 1], type };
             });
         });
-
         return this.shapeCanMove(squaresToTry);
     }
 
