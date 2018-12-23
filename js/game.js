@@ -27,7 +27,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 2000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 3000);
     }
 
     drop() {
@@ -75,23 +75,18 @@ class Game {
     }
 
     rotateShape() {
-        let keepMoving = true;
-        if (this.currentShape.state === 'fixed') {
-            keepMoving = false;
-        }
-
-        let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
-
-        if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180) {
+        if (this.currentShape.state !== 'fixed') {
+            let keepMoving = true;
+            let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
             let numberOfOverlappingSquares = this.calculateNumberOfOverlappingSquares(squaresToMoveTo);
-
-            if (numberOfOverlappingSquares === 2) {
+    
+            if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180 && numberOfOverlappingSquares === 2) {
                 if (this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo)) {
                     squaresToMoveTo = this.slideAndRotate('left twice', squaresToMoveTo);
                 } else {
                     keepMoving = false;
                 }
-            } else if (numberOfOverlappingSquares === 1) {
+            } else {
                 for (let i = 0; i < squaresToMoveTo.length; i++) {
                     for (let j = 0; j < 4; j++) {
                         let { square, type } = squaresToMoveTo[i][j];
@@ -124,47 +119,14 @@ class Game {
                     }
                 }
             }
-
-        } else {
-            for (let i = 0; i < squaresToMoveTo.length; i++) {
-                for (let j = 0; j < 4; j++) {
-                    let { square, type } = squaresToMoveTo[i][j];
-                    if (type === 'filled') {
-                        if (square[0] < 0) {
-                            if (this.tryToSlideDownAndRotate(squaresToMoveTo)) {
-                                squaresToMoveTo = this.slideAndRotate('down', squaresToMoveTo);
-                            } else {
-                                keepMoving = false;
-                            }
-                        } else {
-                            if (this.board.squareIsOccupied(square)) {  
-                                let [ leftmostColumn, rightmostColumn ] = this.currentShape.getOutermostColumns();
-                                if (square[1] < leftmostColumn) {
-                                    if (this.tryToSlideRightAndRotate(squaresToMoveTo)) {
-                                        squaresToMoveTo = this.slideAndRotate('right', squaresToMoveTo);
-                                    } else {
-                                        keepMoving = false;
-                                    }
-                                } else if (square[1] > rightmostColumn) {
-                                    if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
-                                        squaresToMoveTo = this.slideAndRotate('left', squaresToMoveTo);
-                                    } else {
-                                        keepMoving = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
+    
+            if (keepMoving && squaresToMoveTo) {
+                this.currentShape.updatePosition(squaresToMoveTo);
+                this.currentShape.rotate();
+    
+                if (this.shapeShouldBecomeFixed()) {
+                    this.stopCurrentShapeAndReleaseNewShape();
                 }
-            }
-        }
-
-        if (keepMoving && squaresToMoveTo) {
-            this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.rotate();
-
-            if (this.shapeShouldBecomeFixed()) {
-                this.stopCurrentShapeAndReleaseNewShape();
             }
         }
     }
