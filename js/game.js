@@ -88,14 +88,14 @@ class Game {
                 for (let j = 0; j < 4; j++) {
                     let { square, type } = squaresToMoveTo[i][j];
                     if (type === 'filled') {
-                        if (this.board.squareIsOccupied(square)) {  
-                                occupiedCount++;
-                            }
+                        if (this.board.squareIsOccupied(square)) {
+                            occupiedCount++;
                         }
                     }
                 }
+            }
             if (occupiedCount === 2) {
-                if (this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount)) {
+                if (this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount)[0]) {
                     let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo, occupiedCount);
                     if (slideTwice) {
                         this.currentShape.shift('left', -20);
@@ -132,7 +132,7 @@ class Game {
                                             keepMoving = false;
                                         }
                                     } else if (square[1] > rightmostColumn) {
-                                        if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
+                                        if (this.tryToSlideLeftAndRotate(squaresToMoveTo)[0]) {
                                             let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
                                             if (slideTwice) {
                                                 this.currentShape.shift('left', -20);
@@ -177,7 +177,7 @@ class Game {
                                         keepMoving = false;
                                     }
                                 } else if (square[1] > rightmostColumn) {
-                                    if (this.tryToSlideLeftAndRotate(squaresToMoveTo)) {
+                                    if (this.tryToSlideLeftAndRotate(squaresToMoveTo)[0]) {
                                         let [newSquares, slideTwice] = this.tryToSlideLeftAndRotate(squaresToMoveTo);
                                         if (slideTwice) {
                                             this.currentShape.shift('left', -20);
@@ -214,17 +214,7 @@ class Game {
             });
         });
 
-        for (let i = 0; i < squaresToTry.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                let { square, type } = squaresToTry[i][j];
-                if (type === 'filled') {
-                    if (this.board.squareIsOccupied(square)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return squaresToTry;
+        return this.shapeCanMove(squaresToTry);
     }
 
     tryToSlideLeftAndRotate(squaresThatWouldHaveCollided, twoOccupieds) {
@@ -235,29 +225,14 @@ class Game {
                     return { square: [square[0], square[1] - 2], type };
                 });
             });
+            return [ this.shapeCanMove(squaresToTry), true ];
         } else {
             squaresToTry = squaresThatWouldHaveCollided.map(row => {
                 return row.map(({ square, type }) => {
                     return { square: [square[0], square[1] - 1], type };
                 });
             });
-        }
-
-        for (let i = 0; i < squaresToTry.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                let { square, type } = squaresToTry[i][j];
-                if (type === 'filled') {
-                    if (this.board.squareIsOccupied(square)) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        if (twoOccupieds) {
-            return [squaresToTry, true];
-        } else {
-            return [squaresToTry, false];
+            return [ this.shapeCanMove(squaresToTry), false ];
         }
     }
 
@@ -268,17 +243,7 @@ class Game {
             });
         });
 
-        for (let i = 0; i < squaresToTry.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                let { square, type } = squaresToTry[i][j];
-                if (type === 'filled') {
-                    if (this.board.squareIsOccupied(square)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return squaresToTry;
+        return this.shapeCanMove(squaresToTry);
     }
 
     shapeCanMove(squaresToMoveTo) {
@@ -292,7 +257,7 @@ class Game {
                 }
             }
         }
-        return true;
+        return squaresToMoveTo;
     }
 
     shapeShouldBecomeFixed() {
