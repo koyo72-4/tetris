@@ -4,7 +4,7 @@ class Shape {
         this.element = this.getRandomShape(this.createShapes(this.id));
         this.classes = Array.from(this.element.classList);
         this.squares = Array.from(this.element.children);
-        this.position = this.getStartingPosition();
+        this.position = ShapeSchema.getStartingPosition(this.classes);
         this.degrees = 0;
         this.state = 'moving';
     }
@@ -39,8 +39,7 @@ class Shape {
                 if (this.classes.includes('o')) {
                     return null;
                 }
-                const squareShouldBeFilled = checkSquare.bind(this);
-                if (squareShouldBeFilled(i, j)) {
+                if (ShapeSchema.squareShouldBeFilled(this, i, j)) {
                     positionToRotateTo[i][j].type = 'filled';
                 } else {
                     positionToRotateTo[i][j].type = 'empty';
@@ -49,108 +48,6 @@ class Shape {
         }
 
         return positionToRotateTo;
-
-        function checkSquare(i, j) {
-            if (this.classes.includes('i') && this.degrees === 0) {
-                return (
-                    i === 0 && j === 1 ||
-                    i === 1 && j === 1 ||
-                    i === 2 && j === 1 ||
-                    i === 3 && j === 1
-                ); 
-            } else if (this.classes.includes('i') && this.degrees === 180) {
-                return (
-                    i === 1 && j === 0 ||
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3
-                );
-            } else if (this.classes.includes('z') && this.degrees === 0) {
-                return (
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 2 && j === 1
-                );
-            } else if (this.classes.includes('z') && this.degrees === 90) {
-                return (
-                    i === 0 && j === 1 ||
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3
-                );
-            } else if (this.classes.includes('z') && this.degrees === 180) {
-                return (
-                    i === 0 && j === 3 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3 ||
-                    i === 2 && j === 2
-                );
-            } else if (this.classes.includes('z') && this.degrees === 270) {
-                return (
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 2 && j === 2 ||
-                    i === 2 && j === 3
-                );
-            } else if (this.classes.includes('t') && this.degrees === 0) {
-                return (
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 2 && j === 2
-                );
-            } else if (this.classes.includes('t') && this.degrees === 90) {
-                return (
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3
-                );
-            } else if (this.classes.includes('t') && this.degrees === 180) {
-                return (
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3 ||
-                    i === 2 && j === 2
-                );
-            } else if (this.classes.includes('t') && this.degrees === 270) {
-                return (
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3 ||
-                    i === 2 && j === 2
-                );
-            } else if (this.classes.includes('l') && this.degrees === 0) {
-                return (
-                    i === 0 && j === 1 ||
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 2 ||
-                    i === 2 && j === 2
-                );
-            } else if (this.classes.includes('l') && this.degrees === 90) {
-                return (
-                    i === 0 && j === 3 ||
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3
-                );
-            } else if (this.classes.includes('l') && this.degrees === 180) {
-                return (
-                    i === 0 && j === 2 ||
-                    i === 1 && j === 2 ||
-                    i === 2 && j === 2 ||
-                    i === 2 && j === 3
-                );
-            } else if (this.classes.includes('l') && this.degrees === 270) {
-                return (
-                    i === 1 && j === 1 ||
-                    i === 1 && j === 2 ||
-                    i === 1 && j === 3 ||
-                    i === 2 && j === 1
-                );
-            }
-        } 
     }
 
     drawAtStart() {
@@ -167,29 +64,6 @@ class Shape {
             }
         }
         document.getElementById('grid').appendChild(this.element);
-    }
-
-    getStartingPosition() {
-        let inhabitedSquares = [
-            [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
-            [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'empty'}, {square: [0, 6], type: 'empty'}, {square: [0, 7], type: 'empty'}],
-            [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'empty'}, {square: [1, 7], type: 'empty'}],
-            [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
-        ];
-
-        if (this.classes.includes('i')) {
-            inhabitedSquares[1].forEach(object => object.type = 'filled');
-        } else if (this.classes.includes('o')) {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][1].type = inhabitedSquares[2][2].type = 'filled';
-        } else if (this.classes.includes('z')) {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][2].type = inhabitedSquares[2][3].type = 'filled';
-        } else if (this.classes.includes('t')) {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][2].type = 'filled';
-        } else if (this.classes.includes('l')) {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][1].type = 'filled';
-        }
-
-        return inhabitedSquares;
     }
 
     getNextPositionGoingDown() {
