@@ -27,7 +27,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 3000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 5000);
     }
 
     drop() {
@@ -75,7 +75,7 @@ class Game {
     }
 
     rotateShape() {
-        if (this.currentShape.state !== 'fixed') {
+        if (this.currentShape.state !== 'fixed' && !this.currentShape.classes.includes('o')) {
             let keepMoving = true;
             let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
             let numberOfOverlappingSquares = this.calculateNumberOfOverlappingSquares(squaresToMoveTo);
@@ -132,6 +132,7 @@ class Game {
     }
 
     calculateNumberOfOverlappingSquares(squaresToMoveTo) {
+        if (!this.currentShape.classes.includes('i')) return 0;
         let occupiedCount = 0;
         for (let i = 0; i < squaresToMoveTo.length; i++) {
             for (let j = 0; j < 4; j++) {
