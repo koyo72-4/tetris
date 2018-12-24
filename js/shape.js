@@ -10,7 +10,7 @@ class Shape {
     }
 
     createShapes(id) {
-        let shapeNames = ['i', 'o', 'z', 't', 'l'];
+        let shapeNames = ['i', 'o', 'z', 't', 'l', 'j'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
@@ -28,7 +28,7 @@ class Shape {
     }
 
     getRandomShape(possibleShapes) {
-        return possibleShapes[Math.floor(Math.random() * 5)];
+        return possibleShapes[Math.floor(Math.random() * possibleShapes.length)];
     }
 
     getNextPositionAsRotated() {
