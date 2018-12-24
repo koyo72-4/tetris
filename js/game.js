@@ -2,7 +2,8 @@ class Game {
     constructor() {
         this.board = new Board();
         this.idIterator = this.IdGenerator();
-        this.currentShape = new Shape(this.idIterator.next().value);
+        this.possibleShapes = Shape.createShapes();
+        this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
     }
 
     *IdGenerator() {
@@ -230,7 +231,10 @@ class Game {
     }
 
     getNewShape() {
-        this.currentShape = new Shape(this.idIterator.next().value);
+        if (this.possibleShapes.length === 0) {
+            this.possibleShapes = Shape.createShapes();
+        }
+        this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
         this.currentShape.drawAtStart();
     }
 

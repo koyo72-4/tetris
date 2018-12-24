@@ -1,7 +1,7 @@
 class Shape {
-    constructor(id) {
+    constructor(id, possibleShapes) {
         this.id = id;
-        this.element = this.getRandomShape(this.createShapes(this.id));
+        this.element = this.getRandomShape(id, possibleShapes);
         this.classes = Array.from(this.element.classList);
         this.squares = Array.from(this.element.children);
         this.position = ShapeSchema.getStartingPosition(this.classes);
@@ -9,14 +9,13 @@ class Shape {
         this.state = 'moving';
     }
 
-    createShapes(id) {
+    static createShapes() {
         let shapeNames = ['i', 'o', 't', 'z', 's', 'l', 'j'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
             shape.classList.add('shape');
             shape.classList.add(name);
-            shape.id = name + id;
             for (let i = 0; i < 16; i++) {
                 let square = document.createElement('div');
                 shape.appendChild(square);
@@ -27,8 +26,11 @@ class Shape {
         return tetrominoes;
     }
 
-    getRandomShape(possibleShapes) {
-        return possibleShapes[Math.floor(Math.random() * possibleShapes.length)];
+    getRandomShape(id, possibleShapes) {
+        let randomIndex = Math.floor(Math.random() * possibleShapes.length);
+        let randomShape = possibleShapes.splice(randomIndex, 1)[0];
+        randomShape.id = id;
+        return randomShape;
     }
 
     getNextPositionAsRotated() {
