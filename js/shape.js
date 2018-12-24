@@ -10,7 +10,7 @@ class Shape {
     }
 
     createShapes(id) {
-        let shapeNames = ['i', 'o', 'z', 't', 'l', 'j'];
+        let shapeNames = ['i', 'o', 't', 'z', 's', 'l', 'j'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');

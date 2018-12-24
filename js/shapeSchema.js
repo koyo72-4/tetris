@@ -11,10 +11,12 @@ class ShapeSchema {
             inhabitedSquares[1].forEach(object => object.type = 'filled');
         } else if (classes.includes('o')) {
             inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][1].type = inhabitedSquares[2][2].type = 'filled';
-        } else if (classes.includes('z')) {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][2].type = inhabitedSquares[2][3].type = 'filled';
         } else if (classes.includes('t')) {
             inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][2].type = 'filled';
+        } else if (classes.includes('z')) {
+            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][2].type = inhabitedSquares[2][3].type = 'filled';
+        } else if (classes.includes('s')) {
+            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][0].type = inhabitedSquares[2][1].type = 'filled';
         } else if (classes.includes('l')) {
             inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][1].type = 'filled';
         } else if (classes.includes('j')) {
@@ -38,34 +40,6 @@ class ShapeSchema {
                 i === 1 && j === 1 ||
                 i === 1 && j === 2 ||
                 i === 1 && j === 3
-            );
-        } else if (shape.classes.includes('z') && shape.degrees === 0) {
-            return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 1
-            );
-        } else if (shape.classes.includes('z') && shape.degrees === 90) {
-            return (
-                i === 0 && j === 1 ||
-                i === 0 && j === 2 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3
-            );
-        } else if (shape.classes.includes('z') && shape.degrees === 180) {
-            return (
-                i === 0 && j === 3 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3 ||
-                i === 2 && j === 2
-            );
-        } else if (shape.classes.includes('z') && shape.degrees === 270) {
-            return (
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2 ||
-                i === 2 && j === 3
             );
         } else if (shape.classes.includes('t') && shape.degrees === 0) {
             return (
@@ -94,6 +68,62 @@ class ShapeSchema {
                 i === 1 && j === 2 ||
                 i === 1 && j === 3 ||
                 i === 2 && j === 2
+            );
+        } else if (shape.classes.includes('z') && shape.degrees === 0) { 
+            return (
+                i === 0 && j === 2 ||
+                i === 1 && j === 1 ||
+                i === 1 && j === 2 ||
+                i === 2 && j === 1
+            );
+        } else if (shape.classes.includes('z') && shape.degrees === 90) { 
+            return (
+                i === 0 && j === 1 ||
+                i === 0 && j === 2 ||
+                i === 1 && j === 2 ||
+                i === 1 && j === 3
+            );
+        } else if (shape.classes.includes('z') && shape.degrees === 180) { 
+            return (
+                i === 0 && j === 3 ||
+                i === 1 && j === 2 ||
+                i === 1 && j === 3 ||
+                i === 2 && j === 2
+            );
+        } else if (shape.classes.includes('z') && shape.degrees === 270) { 
+            return (
+                i === 1 && j === 1 ||
+                i === 1 && j === 2 ||
+                i === 2 && j === 2 ||
+                i === 2 && j === 3
+            );
+        } else if (shape.classes.includes('s') && shape.degrees === 0) {
+            return (
+                i === 0 && j === 0 ||
+                i === 1 && j === 0 ||
+                i === 1 && j === 1 ||
+                i === 2 && j === 1
+            );
+        } else if (shape.classes.includes('s') && shape.degrees === 90) {
+            return (
+                i === 0 && j === 1 ||
+                i === 0 && j === 2 ||
+                i === 1 && j === 0 ||
+                i === 1 && j === 1
+            );
+        } else if (shape.classes.includes('s') && shape.degrees === 180) {
+            return (
+                i === 0 && j === 1 ||
+                i === 1 && j === 1 ||
+                i === 1 && j === 2 ||
+                i === 2 && j === 2
+            );
+        } else if (shape.classes.includes('s') && shape.degrees === 270) {
+            return (
+                i === 1 && j === 1 ||
+                i === 1 && j === 2 ||
+                i === 2 && j === 0 ||
+                i === 2 && j === 1
             );
         } else if (shape.classes.includes('l') && shape.degrees === 0) {
             return (
