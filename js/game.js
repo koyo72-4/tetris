@@ -235,7 +235,7 @@ class Game {
             for (let i = 0; i < row.length; i++) {
                 let { square, type } = row[i];
                 if (type === 'filled') {
-                    if (square[0] >= 20 || this.board.squares[square[0]][square[1]] === 'occupied') {
+                    if (square[0] >= 20 || this.board.squares[square[0]][square[1]].match(/occupied\([a-z]\)/)) {
                         return true;
                     }
                 }
@@ -255,7 +255,7 @@ class Game {
     stopCurrentShape() {
         clearInterval(this.floatDownInterval);
         this.currentShape.updateState('fixed');
-        this.board.update(this.currentShape.position);
+        this.board.update(this.currentShape.position, this.currentShape.name);
         this.score.addPointsForDroppedShape();
         let numberOfNewlyCompletedRows = this.board.rowsCompleted();
         if (numberOfNewlyCompletedRows) this.score.addPointsForCompletedRows(numberOfNewlyCompletedRows);

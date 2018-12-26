@@ -9,7 +9,7 @@ class Board {
         for (let i = 0; i < 20; i++) {
             let row = [];
             for (let i = 0; i < 12; i++) {
-                row.push(null);
+                row.push('empty');
             }
             board.push(row);
         }
@@ -26,16 +26,16 @@ class Board {
     }
 
     squareIsOccupied(square) {
-        return square[0] < 0 ||  square[1] < 0 || square[1] >= 12 || this.squares[square[0]][square[1]] === 'occupied';
+        return square[0] < 0 ||  square[1] < 0 || square[1] >= 12 || this.squares[square[0]][square[1]].match(/occupied\([a-z]\)/);
     }
 
-    update(occupiedSquares) {
+    update(occupiedSquares, name) {
         for (let row of occupiedSquares) {
             for (let i = 0; i < row.length; i++) {
                 let { square, type } = row[i];
                 if (type === 'filled') {
-                    this.squares[square[0]][square[1]] = 'occupied';
-                    this.rowsNotCompleted[square[0]][square[1]] = 'occupied';
+                    this.squares[square[0]][square[1]] = `occupied(${name})`;
+                    this.rowsNotCompleted[square[0]][square[1]] = `occupied(${name})`;
                 }
             }
         }
@@ -44,7 +44,7 @@ class Board {
     rowsCompleted() {
         let completedRows = 0;
         for (let i = 0; i < this.rowsNotCompleted.length; i++) {
-            if (!this.rowsNotCompleted[i].includes(null)) {
+            if (!this.rowsNotCompleted[i].includes('empty')) {
                 completedRows++;
                 this.rowsNotCompleted.splice(i, 1);
             }
