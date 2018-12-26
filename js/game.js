@@ -1,6 +1,7 @@
 class Game {
     constructor() {
         this.board = new Board();
+        this.score = new Score();
         this.idIterator = this.IdGenerator();
         this.possibleShapes = Shape.createShapes();
         this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
@@ -242,6 +243,8 @@ class Game {
         clearInterval(this.floatDownInterval);
         this.currentShape.updateState('fixed');
         this.board.update(this.currentShape.position);
+        console.log('will add points! (for ' + this.currentShape.classes + ')');
+        this.score.addPointsForDroppedShape();
     }
 
     stopCurrentShapeAndReleaseNewShape() {
