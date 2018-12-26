@@ -37,7 +37,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 5000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 1000);
     }
 
     endGame() {
@@ -257,6 +257,8 @@ class Game {
         this.currentShape.updateState('fixed');
         this.board.update(this.currentShape.position);
         this.score.addPointsForDroppedShape();
+        let numberOfNewlyCompletedRows = this.board.rowsCompleted();
+        if (numberOfNewlyCompletedRows) this.score.addPointsForCompletedRows(numberOfNewlyCompletedRows);
     }
 
     stopCurrentShapeAndReleaseNewShape() {

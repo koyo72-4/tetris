@@ -7,6 +7,10 @@ class Score {
         this.updateScore(20);
     }
 
+    addPointsForCompletedRows(numberOfRowsCompleted) {
+        this.updateScore(100 * numberOfRowsCompleted);
+    }
+
     updateScore(pointsAdded) {
         this.value += pointsAdded;
         this.displayScore();

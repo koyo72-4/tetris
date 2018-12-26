@@ -1,6 +1,7 @@
 class Board {
     constructor() {
         this.squares = this.initialize();
+        this.rowsNotCompleted = JSON.parse(JSON.stringify(this.squares));
     }
 
     initialize() {
@@ -34,8 +35,21 @@ class Board {
                 let { square, type } = row[i];
                 if (type === 'filled') {
                     this.squares[square[0]][square[1]] = 'occupied';
+                    this.rowsNotCompleted[square[0]][square[1]] = 'occupied';
                 }
             }
         }
+    }
+
+    rowsCompleted() {
+        let completedRows = 0;
+        for (let i = 0; i < this.rowsNotCompleted.length; i++) {
+            if (!this.rowsNotCompleted[i].includes(null)) {
+                completedRows++;
+                this.rowsNotCompleted.splice(i, 1);
+            }
+        }
+
+        return completedRows;
     }
 }
