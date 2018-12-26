@@ -90,12 +90,12 @@ class Game {
     }
 
     rotateShape() {
-        if (this.currentShape.state !== 'fixed' && !this.currentShape.classes.includes('o')) {
+        if (this.currentShape.state !== 'fixed' && this.currentShape.name !== 'o') {
             let keepMoving = true;
             let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
             let numberOfOverlappingSquares = this.calculateNumberOfOverlappingSquares(squaresToMoveTo);
     
-            if (this.currentShape.classes.includes('i') && this.currentShape.degrees === 180 && numberOfOverlappingSquares === 2) {
+            if (this.currentShape.name === 'i' && this.currentShape.degrees === 180 && numberOfOverlappingSquares === 2) {
                 if (this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo)) {
                     squaresToMoveTo = this.slideAndRotate('left twice', squaresToMoveTo);
                 } else {
@@ -147,7 +147,7 @@ class Game {
     }
 
     calculateNumberOfOverlappingSquares(squaresToMoveTo) {
-        if (!this.currentShape.classes.includes('i')) return 0;
+        if (this.currentShape.name !== 'i') return 0;
         let occupiedCount = 0;
         for (let i = 0; i < squaresToMoveTo.length; i++) {
             for (let j = 0; j < 4; j++) {

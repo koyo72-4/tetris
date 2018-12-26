@@ -2,9 +2,9 @@ class Shape {
     constructor(id, possibleShapes) {
         this.id = id;
         this.element = this.getRandomShape(id, possibleShapes);
-        this.classes = Array.from(this.element.classList);
+        this.name = Array.from(this.element.classList).filter(nameOfClass => nameOfClass !== 'shape')[0];
         this.squares = Array.from(this.element.children);
-        this.position = ShapeSchema.getStartingPosition(this.classes);
+        this.position = ShapeSchema.getStartingPosition(this.name);
         this.degrees = 0;
         this.state = 'moving';
     }
@@ -38,7 +38,7 @@ class Shape {
 
         for (let i = 0; i < positionToRotateTo.length; i++) {
             for (let j = 0; j < 4; j++) {
-                if (this.classes.includes('o')) {
+                if (this.name === 'o') {
                     return null;
                 }
                 if (ShapeSchema.squareShouldBeFilled(this, i, j)) {
@@ -111,7 +111,7 @@ class Shape {
                 }
             }
         }
-        if (this.classes.includes('i')) {
+        if (this.name === 'i') {
             this.degrees = (this.degrees + 180) % 360;
         } else {
             this.degrees = (this.degrees + 90) % 360;
