@@ -5,6 +5,9 @@ class Game {
         this.idIterator = this.IdGenerator();
         this.possibleShapes = Shape.createShapes();
         this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
+        this.state = 'not playing';
+
+        this.handleArrowKeys = this.handleArrowKeys.bind(this);
     }
 
     *IdGenerator() {
@@ -16,25 +19,40 @@ class Game {
 
     start() {
         this.board.drawAtStart();
-
-        window.addEventListener('keydown', function() {
-            if (event.key === 'ArrowLeft') this.slideLeft();
-            else if (event.key === 'ArrowRight') this.slideRight();
-            else if (event.key === 'ArrowDown') this.drop();
-            else if (event.key === 'ArrowUp') this.rotateShape();
-        }.bind(this));
-
+        window.addEventListener('keydown', this.handleArrowKeys);
         this.currentShape.drawAtStart();
         this.play();
     }
+
+    handleArrowKeys() {
+        if (event.key === 'ArrowLeft') this.slideLeft();
+        else if (event.key === 'ArrowRight') this.slideRight();
+        else if (event.key === 'ArrowDown') this.drop();
+        else if (event.key === 'ArrowUp') this.rotateShape();
+    }
+
+    updateState(newState) {
+        this.state = newState === 'playing' ? 'playing' : 'not playing';
+    }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 5000);
+        this.updateState('playing');
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 1000);
+    }
+
+    endGame() {
+        this.updateState('not playing');
+        window.removeEventListener('keydown', this.handleArrowKeys);
+        let grid = document.getElementById('grid');
+        grid.style.opacity = 0.4;
+        let gameOverSign = document.querySelector('#scoreboard h3');
+        gameOverSign.textContent = 'Game Over';
     }
 
     drop() {
         if (this.shapeShouldBecomeFixed()) {
             this.stopCurrentShape();
+            this.endGame();
         } else {
             let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
             this.currentShape.updatePosition(squaresToMoveTo);

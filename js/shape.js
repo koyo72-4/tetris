@@ -134,7 +134,7 @@ class Shape {
         this.position = squares;
     }
 
-    updateState(state) {
-        this.state = state === 'moving' ? 'moving' : 'fixed';
+    updateState(newState) {
+        this.state = newState === 'moving' ? 'moving' : 'fixed';
     }
 }
