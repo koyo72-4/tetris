@@ -4,7 +4,6 @@ class Score {
     }
 
     addPointsForDroppedShape() {
-        console.log('adding points...');
         this.updateScore(20);
     }
 

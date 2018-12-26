@@ -21,6 +21,7 @@ class Game {
         this.board.drawAtStart();
         window.addEventListener('keydown', this.handleArrowKeys);
         this.currentShape.drawAtStart();
+        this.updateState('playing');
         this.play();
     }
 
@@ -36,8 +37,7 @@ class Game {
     }
  
     play() {
-        this.updateState('playing');
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 1000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 5000);
     }
 
     endGame() {
@@ -50,17 +50,12 @@ class Game {
     }
 
     drop() {
-        if (this.shapeShouldBecomeFixed()) {
-            this.stopCurrentShape();
-            this.endGame();
-        } else {
-            let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-            this.currentShape.updatePosition(squaresToMoveTo);
-            this.currentShape.shift('top', 20);
+        let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
+        this.currentShape.updatePosition(squaresToMoveTo);
+        this.currentShape.shift('top', 20);
 
-            if (this.shapeShouldBecomeFixed()) {
-                this.stopCurrentShapeAndReleaseNewShape();
-            }
+        if (this.shapeShouldBecomeFixed()) {
+            this.stopCurrentShapeAndReleaseNewShape();
         }
     }
 
@@ -261,7 +256,6 @@ class Game {
         clearInterval(this.floatDownInterval);
         this.currentShape.updateState('fixed');
         this.board.update(this.currentShape.position);
-        console.log('will add points! (for ' + this.currentShape.classes + ')');
         this.score.addPointsForDroppedShape();
     }
 
@@ -269,5 +263,10 @@ class Game {
         this.stopCurrentShape();
         this.getNewShape();
         this.play();
+
+        if (this.shapeShouldBecomeFixed()) {
+            this.stopCurrentShape();
+            this.endGame();
+        }
     }
 }
