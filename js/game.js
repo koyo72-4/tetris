@@ -5,7 +5,7 @@ class Game {
         this.idIterator = this.IdGenerator();
         this.possibleShapes = Shape.createShapes();
         this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
-        this.dropDelay = 1000;
+        this.dropDelay = 500;
         this.state = 'not playing';
 
         this.handleArrowKeys = this.handleArrowKeys.bind(this);
@@ -266,19 +266,23 @@ class Game {
 
         if (newlyCompletedRows.length) {
             this.board.deleteRows(newlyCompletedRows);
-            this.board.shiftRowsDown(newlyCompletedRows);
             this.score.addPointsForCompletedRows(newlyCompletedRows.length);
+            window.setTimeout(() => this.board.shiftRowsDown(newlyCompletedRows), this.dropDelay);
+            let rowsShiftingDown = true;
+            return rowsShiftingDown;
         }
     }
 
     stopCurrentShapeAndReleaseNewShape() {
-        this.stopCurrentShape();
-        this.getNewShape();
-        this.play();
-
-        if (this.shapeShouldBecomeFixed()) {
-            this.stopCurrentShape();
-            this.endGame();
-        }
+        let rowsShiftingDown = this.stopCurrentShape();
+        window.setTimeout(function() {
+            this.getNewShape();
+            this.play();
+    
+            if (this.shapeShouldBecomeFixed()) {
+                this.stopCurrentShape();
+                this.endGame();
+            }
+        }.bind(this), rowsShiftingDown ? this.dropDelay : 0);
     }
 }
