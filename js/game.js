@@ -5,6 +5,7 @@ class Game {
         this.idIterator = this.IdGenerator();
         this.possibleShapes = Shape.createShapes();
         this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
+        this.dropDelay = 1000;
         this.state = 'not playing';
 
         this.handleArrowKeys = this.handleArrowKeys.bind(this);
@@ -37,16 +38,18 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 3000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), this.dropDelay);
     }
 
     endGame() {
         this.updateState('not playing');
         window.removeEventListener('keydown', this.handleArrowKeys);
         let grid = document.getElementById('grid');
-        grid.style.opacity = 0.4;
-        let gameOverSign = document.querySelector('#scoreboard h3');
-        gameOverSign.textContent = 'Game Over';
+        window.setTimeout(function() { 
+            grid.style.opacity = 0.4;
+            let gameOverSign = document.querySelector('#scoreboard h3');
+            gameOverSign.textContent = 'Game Over';
+        }, this.dropDelay);   
     }
 
     drop() {
