@@ -37,7 +37,7 @@ class Game {
     }
  
     play() {
-        this.floatDownInterval = window.setInterval(this.drop.bind(this), 1000);
+        this.floatDownInterval = window.setInterval(this.drop.bind(this), 3000);
     }
 
     endGame() {
@@ -50,12 +50,12 @@ class Game {
     }
 
     drop() {
-        let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
-        this.currentShape.updatePosition(squaresToMoveTo);
-        this.currentShape.shift('top', 20);
-
         if (this.shapeShouldBecomeFixed()) {
             this.stopCurrentShapeAndReleaseNewShape();
+        } else {
+            let squaresToMoveTo = this.currentShape.getNextPositionGoingDown();
+            this.currentShape.updatePosition(squaresToMoveTo);
+            this.currentShape.shift('top', 20);
         }
     }
 
