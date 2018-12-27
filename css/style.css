@@ -1,3 +1,7 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
 }
@@ -10,15 +14,27 @@ body {
 
 #grid {
     border: 3px solid blue;
-    display: grid;
-    grid-template-columns: repeat(12, 20px);
-    grid-template-rows: repeat(20, 20px);
+    width: 246px;
+    /* display: grid; */
+    /* grid-template-columns: repeat(12, 20px);
+    grid-template-rows: repeat(20, 20px); */
     position: relative;
+}
+
+.grid-row {
+    display: flex;
 }
 
 .grid-square {
     background-color: black;
     border: 1px outset white;
+    width: 20px;
+    height: 20px;
+}
+
+.occupied-grid-square {
+    width: 20px;
+    height: 20px;
 }
 
 .shape {
@@ -32,31 +48,38 @@ body {
     border: 1px outset white;
 }
 
-.i .filled {
+.i .filled,
+.i.filled {
     background-color: red;
 }
 
-.o .filled {
+.o .filled,
+.o.filled {
     background-color: pink;
 }
 
-.z .filled {
+.z .filled,
+.z.filled {
     background-color: orange;
 }
 
-.l .filled {
+.l .filled,
+.l.filled {
     background-color: purple;
 }
 
-.t .filled {
+.t .filled,
+.t.filled {
     background-color: yellow;
 }
 
-.j .filled {
+.j .filled,
+.j.filled {
     background-color: green;
 }
 
-.s .filled {
+.s .filled,
+.s.filled {
     background-color: skyblue;
 }
 

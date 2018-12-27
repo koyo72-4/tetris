@@ -137,4 +137,8 @@ class Shape {
     updateState(newState) {
         this.state = newState === 'moving' ? 'moving' : 'fixed';
     }
+
+    removeFromDOM() {
+        this.element.remove();
+    }
 }

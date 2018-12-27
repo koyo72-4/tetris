@@ -257,8 +257,15 @@ class Game {
         this.currentShape.updateState('fixed');
         this.board.update(this.currentShape.position, this.currentShape.name);
         this.score.addPointsForDroppedShape();
-        let numberOfNewlyCompletedRows = this.board.rowsCompleted();
-        if (numberOfNewlyCompletedRows) this.score.addPointsForCompletedRows(numberOfNewlyCompletedRows);
+        let newlyCompletedRows = this.board.rowsCompleted();
+        this.currentShape.removeFromDOM();
+        this.board.colorSquares(this.currentShape);
+
+        if (newlyCompletedRows.length) {
+            this.board.deleteRows(newlyCompletedRows);
+            this.board.shiftRowsDown(newlyCompletedRows);
+            this.score.addPointsForCompletedRows(newlyCompletedRows.length);
+        }
     }
 
     stopCurrentShapeAndReleaseNewShape() {
