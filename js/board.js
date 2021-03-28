@@ -37,7 +37,7 @@ class Board {
     }
 
     squareIsOccupied(square) {
-        return square[0] < 0 ||  square[1] < 0 || square[1] >= 12 || this.squares[square[0]][square[1]].match(/occupied\([a-z]\)/);
+        return square[0] < 0 || square[1] < 0 || square[1] >= 12 || this.squares[square[0]][square[1]].match(/occupied\([a-z]\)/);
     }
 
     update(occupiedSquares, name) {
