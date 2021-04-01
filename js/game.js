@@ -195,6 +195,15 @@ class Game {
         return this.shapeCanMove(squaresToTry);
     }
 
+    tryToSlideUpAndRotate(squaresThatWouldHaveCollided) {
+        let squaresToTry = squaresThatWouldHaveCollided.map(row => {
+            return row.map(({ square, type }) => {
+                return { square: [square[0] - 1, square[1]], type };
+            });
+        });
+        return this.shapeCanMove(squaresToTry);
+    }
+
     tryToSlideLeftAndRotate(squaresThatWouldHaveCollided) {
         let squaresToTry = squaresThatWouldHaveCollided.map(row => {
             return row.map(({ square, type }) => {
