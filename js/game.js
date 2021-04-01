@@ -166,19 +166,23 @@ class Game {
     }
 
     slideAndRotate(direction, squaresToMoveTo) {
-        if (direction === 'left twice') {
-            this.currentShape.shift('left', -20);
-            this.currentShape.shift('left', -20);
-            return this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo);
-        } else if (direction === 'left') {
-            this.currentShape.shift('left', -20);
-            return this.tryToSlideLeftAndRotate(squaresToMoveTo);
-        } else if (direction === 'right') {
-            this.currentShape.shift('left', 20);
-            return this.tryToSlideRightAndRotate(squaresToMoveTo);
-        } else if (direction === 'down') {
-            this.currentShape.shift('top', 20);
-            return this.tryToSlideDownAndRotate(squaresToMoveTo);
+        switch(direction) {
+            case 'left twice':
+                this.currentShape.shift('left', -20);
+                this.currentShape.shift('left', -20);
+                return this.tryToSlideLeftTwiceAndRotate(squaresToMoveTo);
+            case 'left':
+                this.currentShape.shift('left', -20);
+                return this.tryToSlideLeftAndRotate(squaresToMoveTo);
+            case 'right':
+                this.currentShape.shift('left', 20);
+                return this.tryToSlideRightAndRotate(squaresToMoveTo);
+            case 'down':
+                this.currentShape.shift('top', 20);
+                return this.tryToSlideDownAndRotate(squaresToMoveTo);
+            case 'up':
+                this.currentShape.shift('top', -20);
+                return this.tryToSlideUpAndRotate(squaresToMoveTo);
         }
     }
 
