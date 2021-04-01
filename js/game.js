@@ -5,7 +5,7 @@ class Game {
         this.idIterator = this.IdGenerator();
         this.possibleShapes = Shape.createShapes();
         this.currentShape = new Shape(this.idIterator.next().value, this.possibleShapes);
-        this.dropDelay = 500;
+        this.dropDelay = 60000;
         this.state = 'not playing';
 
         this.handleArrowKeys = this.handleArrowKeys.bind(this);
