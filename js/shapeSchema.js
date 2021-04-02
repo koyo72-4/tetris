@@ -26,160 +26,160 @@ class ShapeSchema {
         return inhabitedSquares;
     }
 
-    static squareShouldBeFilled(shape, i, j) {
-        if (shape.name === 'i' && shape.degrees === 0) {
+    static squareShouldBeFilled({ name, degrees }, row, col) {
+        if (name === 'i' && degrees === 0) {
             return (
-                i === 0 && j === 1 ||
-                i === 1 && j === 1 ||
-                i === 2 && j === 1 ||
-                i === 3 && j === 1
+                row === 0 && col === 1 ||
+                row === 1 && col === 1 ||
+                row === 2 && col === 1 ||
+                row === 3 && col === 1
             ); 
-        } else if (shape.name === 'i' && shape.degrees === 180) {
+        } else if (name === 'i' && degrees === 180) {
             return (
-                i === 1 && j === 0 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3
+                row === 1 && col === 0 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3
             );
-        } else if (shape.name === 't' && shape.degrees === 0) {
+        } else if (name === 't' && degrees === 0) {
             return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2
+                row === 0 && col === 2 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 't' && shape.degrees === 90) {
+        } else if (name === 't' && degrees === 90) {
             return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3
+                row === 0 && col === 2 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3
             );
-        } else if (shape.name === 't' && shape.degrees === 180) {
+        } else if (name === 't' && degrees === 180) {
             return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3 ||
-                i === 2 && j === 2
+                row === 0 && col === 2 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 't' && shape.degrees === 270) {
+        } else if (name === 't' && degrees === 270) {
             return (
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3 ||
-                i === 2 && j === 2
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 'z' && shape.degrees === 0) { 
+        } else if (name === 'z' && degrees === 0) {
             return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 1
+                row === 0 && col === 2 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 'z' && shape.degrees === 90) { 
+        } else if (name === 'z' && degrees === 90) {
             return (
-                i === 0 && j === 1 ||
-                i === 0 && j === 2 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3
+                row === 0 && col === 1 ||
+                row === 0 && col === 2 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3
             );
-        } else if (shape.name === 'z' && shape.degrees === 180) { 
+        } else if (name === 'z' && degrees === 180) {
             return (
-                i === 0 && j === 3 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3 ||
-                i === 2 && j === 2
+                row === 0 && col === 3 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 'z' && shape.degrees === 270) { 
+        } else if (name === 'z' && degrees === 270) {
             return (
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2 ||
-                i === 2 && j === 3
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2 ||
+                row === 2 && col === 3
             );
-        } else if (shape.name === 's' && shape.degrees === 0) {
+        } else if (name === 's' && degrees === 0) {
             return (
-                i === 0 && j === 0 ||
-                i === 1 && j === 0 ||
-                i === 1 && j === 1 ||
-                i === 2 && j === 1
+                row === 0 && col === 0 ||
+                row === 1 && col === 0 ||
+                row === 1 && col === 1 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 's' && shape.degrees === 90) {
+        } else if (name === 's' && degrees === 90) {
             return (
-                i === 0 && j === 1 ||
-                i === 0 && j === 2 ||
-                i === 1 && j === 0 ||
-                i === 1 && j === 1
+                row === 0 && col === 1 ||
+                row === 0 && col === 2 ||
+                row === 1 && col === 0 ||
+                row === 1 && col === 1
             );
-        } else if (shape.name === 's' && shape.degrees === 180) {
+        } else if (name === 's' && degrees === 180) {
             return (
-                i === 0 && j === 1 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2
+                row === 0 && col === 1 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 's' && shape.degrees === 270) {
+        } else if (name === 's' && degrees === 270) {
             return (
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 0 ||
-                i === 2 && j === 1
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 0 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 'l' && shape.degrees === 0) {
+        } else if (name === 'l' && degrees === 0) {
             return (
-                i === 0 && j === 1 ||
-                i === 0 && j === 2 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2
+                row === 0 && col === 1 ||
+                row === 0 && col === 2 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2
             );
-        } else if (shape.name === 'l' && shape.degrees === 90) {
+        } else if (name === 'l' && degrees === 90) {
             return (
-                i === 0 && j === 3 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3
+                row === 0 && col === 3 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3
             );
-        } else if (shape.name === 'l' && shape.degrees === 180) {
+        } else if (name === 'l' && degrees === 180) {
             return (
-                i === 0 && j === 2 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2 ||
-                i === 2 && j === 3
+                row === 0 && col === 2 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2 ||
+                row === 2 && col === 3
             );
-        } else if (shape.name === 'l' && shape.degrees === 270) {
+        } else if (name === 'l' && degrees === 270) {
             return (
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 1 && j === 3 ||
-                i === 2 && j === 1
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 1 && col === 3 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 'j' && shape.degrees === 0) {
+        } else if (name === 'j' && degrees === 0) {
             return (
-                i === 0 && j === 1 ||
-                i === 1 && j === 1 ||
-                i === 2 && j === 0 ||
-                i === 2 && j === 1
+                row === 0 && col === 1 ||
+                row === 1 && col === 1 ||
+                row === 2 && col === 0 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 'j' && shape.degrees === 90) {
+        } else if (name === 'j' && degrees === 90) {
             return (
-                i === 0 && j === 0 ||
-                i === 1 && j === 0 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2
+                row === 0 && col === 0 ||
+                row === 1 && col === 0 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2
             );
-        } else if (shape.name === 'j' && shape.degrees === 180) {
+        } else if (name === 'j' && degrees === 180) {
             return (
-                i === 0 && j === 1 ||
-                i === 0 && j === 2 ||
-                i === 1 && j === 1 ||
-                i === 2 && j === 1
+                row === 0 && col === 1 ||
+                row === 0 && col === 2 ||
+                row === 1 && col === 1 ||
+                row === 2 && col === 1
             );
-        } else if (shape.name === 'j' && shape.degrees === 270) {
+        } else if (name === 'j' && degrees === 270) {
             return (
-                i === 1 && j === 0 ||
-                i === 1 && j === 1 ||
-                i === 1 && j === 2 ||
-                i === 2 && j === 2
+                row === 1 && col === 0 ||
+                row === 1 && col === 1 ||
+                row === 1 && col === 2 ||
+                row === 2 && col === 2
             );
         }
     }
