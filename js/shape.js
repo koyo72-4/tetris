@@ -6,6 +6,7 @@ class Shape {
         this.squares = Array.from(this.element.children);
         this.position = ShapeSchema.getStartingPosition(this.name);
         this.degrees = 0;
+        this.orientation = this.getOrientation(this.degrees, this.name);
         this.state = 'moving';
     }
 
@@ -32,6 +33,21 @@ class Shape {
         let randomShape = possibleShapes.splice(randomIndex, 1)[0];
         randomShape.id = id;
         return randomShape;
+    }
+
+    getOrientation(degrees, name) {
+        if (name === 'i') {
+            return degrees === 0 ? 'horizontal' : 'vertical';
+        } else {
+            switch(degrees) {
+                case 0:
+                case 180:
+                    return 'horizontal';
+                case 90:
+                case 270:
+                    return 'vertical';
+            }
+        }
     }
 
     getNextPositionAsRotated() {

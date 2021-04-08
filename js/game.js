@@ -96,16 +96,18 @@ class Game {
         return this.board.squareIsOccupied(square);
     }
 
-    getSlideDirection(shape, degrees, numberOfTries) {
+    getSlideDirection(shape, degrees, orientation, numberOfTries) {
+        const horizontalDirections = ['right', 'left'];
+        const verticalDirections = ['up', 'down'];
         const directions = ['up', 'right', 'down', 'left'];
         const extraDirectionsForIShape = ['up twice', 'left twice'];
 
         switch(shape) {
             case 'i':
-                switch(degrees) {
-                    case 0:
+                switch(orientation) {
+                    case 'horizontal':
                         return numberOfTries === 1 ? 'down' : numberOfTries === 2 ? 'up twice' :  'up';
-                    case 180:
+                    case 'vertical':
                         return numberOfTries === 1 ? 'right' : numberOfTries === 2 ? 'left twice' :  'left';
                 }
             case 'l':
@@ -143,21 +145,21 @@ class Game {
                         if (this.isBlocked(D)) {
                             return;
                         } else {
-                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, 1);
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // GBCD
                         }
                     } else if (this.isBlocked(B)) {
                         if (this.isBlocked(E) || this.isBlocked(F)) {
                             return;
                         } else {
-                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, 2);
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // EFAG
                         }
                     } else {  // we know that C is blocked
                         if (this.isBlocked(F)) {
                             return;
                         } else {
-                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, 3);
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 3);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // FAGB
                         }
                     }
@@ -168,14 +170,14 @@ class Game {
                         if (this.isBlocked(D)) {
                             return;
                         } else {
-                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, 1);
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // HGCD
                         }
                     } else {  // we know that C is blocked
                         if (this.isBlocked(E) || this.isBlocked(F)) {
                             return;
                         } else {
-                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, 2);
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // EFBG
                         }
                     }
