@@ -10,7 +10,8 @@ class Shape {
     }
 
     static createShapes() {
-        let shapeNames = ['i', 'o', 't', 'z', 's', 'l', 'j'];
+        // let shapeNames = ['i', 'o', 't', 'z', 's', 'l', 'j'];
+        let shapeNames = ['o', 'i', 'l'];
     
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
@@ -156,5 +157,79 @@ class Shape {
 
     removeFromDOM() {
         this.element.remove();
+    }
+
+    getNextFilledSquares(squaresToMoveTo) {
+        if (this.name === 'i') {  // 0 is horizontal, 180 is vertical
+            if (this.degrees === 0) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][1].square,
+                    G: squaresToMoveTo[1][1].square,
+                    B: squaresToMoveTo[2][1].square,
+                    C: squaresToMoveTo[3][1].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0] - 2, objectOfSquares.A[1]];
+                objectOfSquares.F = [objectOfSquares.A[0] - 1, objectOfSquares.A[1]];
+                objectOfSquares.D = [objectOfSquares.C[0] + 1, objectOfSquares.C[1]];
+                return objectOfSquares;
+            } else if (this.degrees === 180) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[1][0].square,
+                    G: squaresToMoveTo[1][1].square,
+                    B: squaresToMoveTo[1][2].square,
+                    C: squaresToMoveTo[1][3].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0], objectOfSquares.A[1] - 2];
+                objectOfSquares.F = [objectOfSquares.A[0], objectOfSquares.A[1] - 1];
+                objectOfSquares.D = [objectOfSquares.C[0], objectOfSquares.C[1] + 1];
+                return objectOfSquares;
+            }
+        } else if (this.name === 'l') {  // 0 is j--, 90 is 7, 180 is __i, 270 is L
+            if (this.degrees === 0) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][1].square,
+                    B: squaresToMoveTo[0][2].square,
+                    G: squaresToMoveTo[1][2].square,
+                    C: squaresToMoveTo[2][2].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0] - 1, objectOfSquares.A[1]];
+                objectOfSquares.F = [objectOfSquares.B[0] - 1, objectOfSquares.B[1]];
+                objectOfSquares.D = [objectOfSquares.C[0] + 1, objectOfSquares.C[1]];
+                return objectOfSquares;
+            } else if (this.degrees === 90) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][3].square,
+                    C: squaresToMoveTo[1][1].square,
+                    G: squaresToMoveTo[1][2].square,
+                    B: squaresToMoveTo[1][3].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0], objectOfSquares.A[1] + 1];
+                objectOfSquares.F = [objectOfSquares.B[0], objectOfSquares.B[1] + 1];
+                objectOfSquares.D = [objectOfSquares.C[0], objectOfSquares.C[1] - 1];
+                return objectOfSquares;
+            } else if (this.degrees === 180) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][2].square,
+                    G: squaresToMoveTo[1][2].square,
+                    B: squaresToMoveTo[2][2].square,
+                    C: squaresToMoveTo[2][3].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0] + 1, objectOfSquares.A[1]];
+                objectOfSquares.F = [objectOfSquares.B[0] + 1, objectOfSquares.B[1]];
+                objectOfSquares.D = [objectOfSquares.C[0] - 1, objectOfSquares.C[1]];
+                return objectOfSquares;
+            } else if (this.degrees === 270) {
+                const objectOfSquares = {
+                    B: squaresToMoveTo[1][0].square,
+                    G: squaresToMoveTo[1][2].square,
+                    A: squaresToMoveTo[2][0].square,
+                    C: squaresToMoveTo[1][3].square
+                };
+                objectOfSquares.E = [objectOfSquares.A[0], objectOfSquares.A[1] - 1];
+                objectOfSquares.F = [objectOfSquares.B[0], objectOfSquares.B[1] - 1];
+                objectOfSquares.D = [objectOfSquares.C[0], objectOfSquares.C[1] + 1];
+                return objectOfSquares;
+            }
+        }
     }
 }
