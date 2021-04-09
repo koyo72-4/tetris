@@ -51,13 +51,11 @@ class Shape {
     }
 
     updateOrientation() {
-        debugger;
         if (this.orientation === 'horizontal') {
             this.orientation = 'vertical';
         } else {
             this.orientation = 'horizontal';
         }
-        debugger;
     }
 
     getNextPositionAsRotated() {
