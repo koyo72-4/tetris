@@ -142,6 +142,38 @@ class Game {
         }
     }
 
+    getAdjustments(direction) {
+        switch(direction) {
+            case 'left twice':
+                return [0, -2];
+            case 'left':
+                return [0, -1];
+            case 'right':
+                return [0, 1];
+            case 'down':
+                return [1, 0];
+            case 'up':
+                return [-1, 0];
+            case 'up twice':
+                return [-2, 0];
+        }
+    }
+
+    adjustSquares(squares, direction) {
+        return squares.map(row => {
+            return row.map(sq => {
+                return {
+                    ...sq,
+                    square: this.adjustSquare(sq.square, this.getAdjustments(direction))
+                };
+            });
+        });
+    }
+
+    adjustSquare([row, col], [rowAdjustment, colAdjustment]) {
+        return [row + rowAdjustment, col + colAdjustment];
+    }
+
     rotateShape() {
         if (this.currentShape.state !== 'fixed' && this.currentShape.name !== 'o') {
             let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
@@ -219,72 +251,25 @@ class Game {
             case 'left twice':
                 this.currentShape.shift('left', -20);
                 this.currentShape.shift('left', -20);
-                return this.slideLeftTwiceAndRotate(squaresToMoveTo);
+                break;
             case 'left':
                 this.currentShape.shift('left', -20);
-                return this.slideLeftAndRotate(squaresToMoveTo);
+                break;
             case 'right':
                 this.currentShape.shift('left', 20);
-                return this.slideRightAndRotate(squaresToMoveTo);
+                break;
             case 'down':
                 this.currentShape.shift('top', 20);
-                return this.slideDownAndRotate(squaresToMoveTo);
+                break;
             case 'up':
                 this.currentShape.shift('top', -20);
-                return this.slideUpAndRotate(squaresToMoveTo);
+                break;
             case 'up twice':
                 this.currentShape.shift('top', -20);
                 this.currentShape.shift('top', -20);
-                return this.slideUpTwiceAndRotate(squaresToMoveTo);
+                break;
         }
-    }
-
-    slideDownAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0] + 1, square[1]], type };
-            });
-        });
-    }
-
-    slideUpAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0] - 1, square[1]], type };
-            });
-        });
-    }
-
-    slideUpTwiceAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0] - 2, square[1]], type };
-            });
-        });
-    }
-
-    slideLeftAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0], square[1] - 1], type };
-            });
-        });
-    }
-
-    slideLeftTwiceAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0], square[1] - 2], type };
-            });
-        });
-    }
-
-    slideRightAndRotate(squaresThatWouldHaveCollided) {
-        return squaresThatWouldHaveCollided.map(row => {
-            return row.map(({ square, type }) => {
-                return { square: [square[0], square[1] + 1], type };
-            });
-        });
+        return this.adjustSquares(squaresToMoveTo, direction);
     }
 
     shapeCanMove(squaresToMoveTo) {
