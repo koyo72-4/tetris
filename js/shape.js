@@ -50,6 +50,16 @@ class Shape {
         }
     }
 
+    updateOrientation() {
+        debugger;
+        if (this.orientation === 'horizontal') {
+            this.orientation = 'vertical';
+        } else {
+            this.orientation = 'horizontal';
+        }
+        debugger;
+    }
+
     getNextPositionAsRotated() {
         let positionToRotateTo = JSON.parse(JSON.stringify(this.position));
 

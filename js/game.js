@@ -200,6 +200,7 @@ class Game {
             }
 
             this.currentShape.updatePosition(squaresToMoveTo);
+            this.currentShape.updateOrientation();
             this.currentShape.rotate();
 
             if (this.lockDelayTimeout) {
