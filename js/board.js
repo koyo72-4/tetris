@@ -37,7 +37,7 @@ class Board {
     }
 
     squareIsOccupied([row, col]) {
-        return row < 0 || col < 0 || col >= 12 || this.squares[row][col].match(/occupied\([a-z]\)/);
+        return row < 0 || col < 0 || row >= 20 || col >= 12 || this.squares[row][col].match(/occupied\([iotzslj]\)/);
     }
 
     update(occupiedSquares, name) {
