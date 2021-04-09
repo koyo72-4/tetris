@@ -135,22 +135,6 @@ class Shape {
         }
     }
 
-    getBoundaries(newPosition) {
-        let columns = [];
-        let rows = [];
-        for (let i = 0; i < newPosition.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                if (newPosition[i][j].type === 'filled') {
-                    columns.push(newPosition[i][j].square[1]);
-                    rows.push(newPosition[i][j].square[0]);
-                }
-            }
-        }
-
-        let boundaries = [ Math.min(...rows), Math.max(...columns), Math.max(...rows), Math.min(...columns) ];
-        return boundaries;
-    }
-
     getOutermostColumns() {
         let columns = [];
         for (let i = 0; i < this.position.length; i++) {
