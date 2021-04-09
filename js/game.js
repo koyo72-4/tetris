@@ -139,6 +139,17 @@ class Game {
                     case 270:
                         return numberOfTries === 1 ? 'right' : 'left';
                 }
+            case 'j':
+                switch(degrees) {
+                    case 0:
+                        return numberOfTries === 1 ? 'up' : 'down';
+                    case 90:
+                        return numberOfTries === 1 ? 'right' : 'left';
+                    case 180:
+                        return numberOfTries === 1 ? 'down' : 'up';
+                    case 270:
+                        return numberOfTries === 1 ? 'left' : 'right';
+                }
         }
     }
 
@@ -210,7 +221,7 @@ class Game {
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // FAGB
                         }
                     }
-                } else if (this.currentShape.name === 'l') {
+                } else if (this.currentShape.name === 'l' || this.currentShape.name === 'j') {
                     if (this.isBlocked(C) && (this.isBlocked(A) || this.isBlocked(B))) {
                         return;
                     } else if (this.isBlocked(A) || this.isBlocked(B)) {
