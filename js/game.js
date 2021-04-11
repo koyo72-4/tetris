@@ -1,4 +1,4 @@
-class Game { 
+class Game {
     constructor() {
         this.board = new Board();
         this.score = new Score();
