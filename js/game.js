@@ -150,6 +150,17 @@ class Game {
                     case 270:
                         return numberOfTries === 1 ? 'left' : 'right';
                 }
+            case 't':
+                switch(degrees) {
+                    case 0:
+                        return 'down';
+                    case 90:
+                        return 'left';
+                    case 180:
+                        return 'up';
+                    case 270:
+                        return 'right';
+                }
         }
     }
 
@@ -190,10 +201,10 @@ class Game {
             let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
 
             const squaresToCheck = this.currentShape.getNextFilledSquares(squaresToMoveTo);
-            const { A, G, B, C, E, F, D } = squaresToCheck;
+            const { A, G, B = null, C = null, E = null, F = null, D = null, J = null, K = null } = squaresToCheck;
             const firstSquaresToCheck = [A, G, B, C];
 
-            const needToSlide = firstSquaresToCheck.some(square => this.isBlocked(square));
+            const needToSlide = firstSquaresToCheck.filter(Boolean).some(square => this.isBlocked(square));
 
             if (needToSlide) {
                 if (this.currentShape.name === 'i') {
@@ -238,6 +249,13 @@ class Game {
                             const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // EFBG
                         }
+                    }
+                } else if (this.currentShape.name === 't') {
+                    if (this.isBlocked(J) || this.isBlocked(K)) {
+                        return;
+                    } else {
+                        const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
+                        squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // GHJK
                     }
                 }
             }
