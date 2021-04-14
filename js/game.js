@@ -161,6 +161,17 @@ class Game {
                     case 270:
                         return 'right';
                 }
+            case 'z':
+                switch(degrees) {
+                    case 0:
+                        return numberOfTries === 1 ? 'down' : 'up';
+                    case 90:
+                        return numberOfTries === 1 ? 'left' : 'right';
+                    case 180:
+                        return numberOfTries === 1 ? 'up' : 'down';
+                    case 270:
+                        return numberOfTries === 1 ? 'right' : 'up';
+                }
         }
     }
 
@@ -256,6 +267,24 @@ class Game {
                     } else {
                         const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
                         squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // GHJK
+                    }
+                } else if (this.currentShape.name === 'z') {
+                    if (this.isBlocked(A) && this.isBlocked(B)) {
+                        return;
+                    } else if (this.isBlocked(A)) {
+                        if (this.isBlocked(D)) {
+                            return;
+                        } else {
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
+                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // GIBD
+                        }
+                    } else {  // we know that B is blocked
+                        if (this.isBlocked(E) || this.isBlocked(F)) {
+                            return;
+                        } else {
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
+                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // EAFH
+                        }
                     }
                 }
             }
