@@ -11,9 +11,8 @@ class Shape {
     }
 
     static createShapes() {
-        // let shapeNames = ['i', 'o', 't', 'z', 's', 'l', 'j'];
-        let shapeNames = ['o', 'i', 'l', 'j', 't', 'z'];
-    
+        let shapeNames = ['o', 'i', 'l', 'j', 't', 'z', 's'];
+
         let tetrominoes = shapeNames.map(name => {
             let shape = document.createElement('div');
             shape.classList.add('shape');
@@ -326,7 +325,7 @@ class Shape {
                 objectOfSquares.K = [objectOfSquares.I[0], objectOfSquares.I[1] + 1];
                 return objectOfSquares;
             }
-        } else if (this.name === 'z') {
+        } else if (this.name === 'z') {  // 0 is horizontal, 90 is vertical, 180 is horizontal, 270 is vertical
             if (this.degrees === 0) {
                 const objectOfSquares = {
                     A: squaresToMoveTo[0][2].square,
@@ -370,6 +369,52 @@ class Shape {
                 objectOfSquares.D = [objectOfSquares.B[0], objectOfSquares.B[1] + 1];
                 objectOfSquares.E = [objectOfSquares.A[0], objectOfSquares.A[1] - 1];
                 objectOfSquares.F = [objectOfSquares.H[0], objectOfSquares.H[1] - 1];
+                return objectOfSquares;
+            }
+        } else if (this.name === 's') {  // 0 is horizontal, 90 is vertical, 180 is horizontal, 270 is vertical
+            if (this.degrees === 0) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][0].square,
+                    G: squaresToMoveTo[1][1].square,
+                    H: squaresToMoveTo[2][1].square,
+                    B: squaresToMoveTo[1][0].square
+                };
+                objectOfSquares.D = [objectOfSquares.H[0] + 1, objectOfSquares.H[1]];
+                objectOfSquares.L = [objectOfSquares.G[0] - 1, objectOfSquares.G[1]];
+                objectOfSquares.J = [objectOfSquares.H[0], objectOfSquares.H[1] + 1];
+                return objectOfSquares;
+            } else if (this.degrees === 90) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[0][2].square,
+                    G: squaresToMoveTo[1][1].square,
+                    H: squaresToMoveTo[1][0].square,
+                    B: squaresToMoveTo[0][1].square
+                };
+                objectOfSquares.D = [objectOfSquares.H[0], objectOfSquares.H[1] - 1];
+                objectOfSquares.L = [objectOfSquares.G[0], objectOfSquares.G[1] + 1];
+                objectOfSquares.J = [objectOfSquares.H[0] + 1, objectOfSquares.H[1]];
+                return objectOfSquares;
+            } else if (this.degrees === 180) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[2][2].square,
+                    G: squaresToMoveTo[1][1].square,
+                    H: squaresToMoveTo[0][1].square,
+                    B: squaresToMoveTo[1][2].square
+                };
+                objectOfSquares.D = [objectOfSquares.H[0] - 1, objectOfSquares.H[1]];
+                objectOfSquares.L = [objectOfSquares.G[0] + 1, objectOfSquares.G[1]];
+                objectOfSquares.J = [objectOfSquares.H[0], objectOfSquares.H[1] - 1];
+                return objectOfSquares;
+            } else if (this.degrees === 270) {
+                const objectOfSquares = {
+                    A: squaresToMoveTo[2][0].square,
+                    G: squaresToMoveTo[1][1].square,
+                    H: squaresToMoveTo[1][2].square,
+                    B: squaresToMoveTo[2][1].square
+                };
+                objectOfSquares.D = [objectOfSquares.H[0], objectOfSquares.H[1] + 1];
+                objectOfSquares.L = [objectOfSquares.G[0], objectOfSquares.G[1] - 1];
+                objectOfSquares.J = [objectOfSquares.H[0] - 1, objectOfSquares.H[1]];
                 return objectOfSquares;
             }
         }

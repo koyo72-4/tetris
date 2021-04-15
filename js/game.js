@@ -172,6 +172,17 @@ class Game {
                     case 270:
                         return numberOfTries === 1 ? 'right' : 'up';
                 }
+            case 's':
+                switch(degrees) {
+                    case 0:
+                        return numberOfTries === 1 ? 'right' : 'down';
+                    case 90:
+                        return numberOfTries === 1 ? 'down' : 'left';
+                    case 180:
+                        return numberOfTries === 1 ? 'left' : 'up';
+                    case 270:
+                        return numberOfTries === 1 ? 'up' : 'right';
+                }
         }
     }
 
@@ -212,7 +223,7 @@ class Game {
             let squaresToMoveTo = this.currentShape.getNextPositionAsRotated();
 
             const squaresToCheck = this.currentShape.getNextFilledSquares(squaresToMoveTo);
-            const { A, G, B = null, C = null, E = null, F = null, D = null, J = null, K = null } = squaresToCheck;
+            const { A, G, B = null, C = null, E = null, F = null, D = null, J = null, K = null, L = null } = squaresToCheck;
             const firstSquaresToCheck = [A, G, B, C];
 
             const needToSlide = firstSquaresToCheck.filter(Boolean).some(square => this.isBlocked(square));
@@ -284,6 +295,22 @@ class Game {
                         } else {
                             const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
                             squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // EAFH
+                        }
+                    }
+                } else if (this.currentShape.name === 's') {
+                    if (this.isBlocked(B)) {
+                        if (this.isBlocked(L) || this.isBlocked(J)) {
+                            return;
+                        } else {
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
+                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // LGXJ
+                        }
+                    } else {  // we know that A is blocked
+                        if (this.isBlocked(D)) {
+                            return;
+                        } else {
+                            const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 2);
+                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // BIHD
                         }
                     }
                 }
