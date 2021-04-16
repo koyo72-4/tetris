@@ -80,7 +80,7 @@ class Game {
 
                 if (this.lockDelayTimeout) {
                     if (!this.shapeShouldBecomeFixed()) {
-                        window.clearInterval(this.lockDelayTimeout);
+                        window.clearTimeout(this.lockDelayTimeout);
                         this.lockDelayTimeout = false;
                     }
                 } else if (this.shapeShouldBecomeFixed()) {
@@ -100,7 +100,7 @@ class Game {
 
                 if (this.lockDelayTimeout) {
                     if (!this.shapeShouldBecomeFixed()) {
-                        window.clearInterval(this.lockDelayTimeout);
+                        window.clearTimeout(this.lockDelayTimeout);
                         this.lockDelayTimeout = false;
                     }
                 } else if (this.shapeShouldBecomeFixed()) {
@@ -322,7 +322,7 @@ class Game {
 
             if (this.lockDelayTimeout) {
                 if (!this.shapeShouldBecomeFixed()) {
-                    window.clearInterval(this.lockDelayTimeout);
+                    window.clearTimeout(this.lockDelayTimeout);
                     this.lockDelayTimeout = false;
                 }
             } else if (this.shapeShouldBecomeFixed()) {
@@ -405,6 +405,7 @@ class Game {
     }
 
     stopCurrentShapeAndReleaseNewShape() {
+        this.lockDelayTimeout = false;
         let rowsShiftingDown = this.stopCurrentShape();
         window.setTimeout(function() {
             this.getNewShape();
