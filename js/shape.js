@@ -380,8 +380,8 @@ class Shape {
                     B: squaresToMoveTo[1][0].square
                 };
                 objectOfSquares.D = [objectOfSquares.H[0] + 1, objectOfSquares.H[1]];
-                objectOfSquares.L = [objectOfSquares.G[0] - 1, objectOfSquares.G[1]];
-                objectOfSquares.J = [objectOfSquares.H[0], objectOfSquares.H[1] + 1];
+                objectOfSquares.E = [objectOfSquares.B[0] + 2, objectOfSquares.B[1]];
+                objectOfSquares.F = [objectOfSquares.H[0] + 2, objectOfSquares.H[1]];
                 return objectOfSquares;
             } else if (this.degrees === 90) {
                 const objectOfSquares = {
@@ -391,8 +391,8 @@ class Shape {
                     B: squaresToMoveTo[0][1].square
                 };
                 objectOfSquares.D = [objectOfSquares.H[0], objectOfSquares.H[1] - 1];
-                objectOfSquares.L = [objectOfSquares.G[0], objectOfSquares.G[1] + 1];
-                objectOfSquares.J = [objectOfSquares.H[0] + 1, objectOfSquares.H[1]];
+                objectOfSquares.E = [objectOfSquares.B[0], objectOfSquares.B[1] - 2];
+                objectOfSquares.F = [objectOfSquares.H[0], objectOfSquares.H[1] - 2];
                 return objectOfSquares;
             } else if (this.degrees === 180) {
                 const objectOfSquares = {
@@ -402,8 +402,8 @@ class Shape {
                     B: squaresToMoveTo[1][2].square
                 };
                 objectOfSquares.D = [objectOfSquares.H[0] - 1, objectOfSquares.H[1]];
-                objectOfSquares.L = [objectOfSquares.G[0] + 1, objectOfSquares.G[1]];
-                objectOfSquares.J = [objectOfSquares.H[0], objectOfSquares.H[1] - 1];
+                objectOfSquares.E = [objectOfSquares.B[0] - 2, objectOfSquares.B[1]];
+                objectOfSquares.F = [objectOfSquares.H[0] - 2, objectOfSquares.H[1]];
                 return objectOfSquares;
             } else if (this.degrees === 270) {
                 const objectOfSquares = {
@@ -413,8 +413,8 @@ class Shape {
                     B: squaresToMoveTo[2][1].square
                 };
                 objectOfSquares.D = [objectOfSquares.H[0], objectOfSquares.H[1] + 1];
-                objectOfSquares.L = [objectOfSquares.G[0], objectOfSquares.G[1] - 1];
-                objectOfSquares.J = [objectOfSquares.H[0] - 1, objectOfSquares.H[1]];
+                objectOfSquares.E = [objectOfSquares.B[0], objectOfSquares.B[1] + 2];
+                objectOfSquares.F = [objectOfSquares.H[0], objectOfSquares.H[1] + 2];
                 return objectOfSquares;
             }
         }

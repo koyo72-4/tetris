@@ -175,13 +175,13 @@ class Game {
             case 's':
                 switch(degrees) {
                     case 0:
-                        return numberOfTries === 1 ? 'right' : 'down';
+                        return numberOfTries === 1 ? 'down twice' : 'down';
                     case 90:
-                        return numberOfTries === 1 ? 'down' : 'left';
+                        return numberOfTries === 1 ? 'left twice' : 'left';
                     case 180:
-                        return numberOfTries === 1 ? 'left' : 'up';
+                        return numberOfTries === 1 ? 'up twice' : 'up';
                     case 270:
-                        return numberOfTries === 1 ? 'up' : 'right';
+                        return numberOfTries === 1 ? 'right twice' : 'right';
                 }
         }
     }
@@ -194,8 +194,12 @@ class Game {
                 return [0, -1];
             case 'right':
                 return [0, 1];
+            case 'right twice':
+                return [0, 2];
             case 'down':
                 return [1, 0];
+            case 'down twice':
+                return [2, 0];
             case 'up':
                 return [-1, 0];
             case 'up twice':
@@ -299,11 +303,11 @@ class Game {
                     }
                 } else if (this.currentShape.name === 's') {
                     if (this.isBlocked(B)) {
-                        if (this.isBlocked(L) || this.isBlocked(J)) {
+                        if (this.isBlocked(E) || this.isBlocked(D) || this.isBlocked(F)) {
                             return;
                         } else {
                             const slideDirection = this.getSlideDirection(this.currentShape.name, this.currentShape.degrees, this.currentShape.orientation, 1);
-                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // LGXJ
+                            squaresToMoveTo = this.slideAndRotate(slideDirection, squaresToMoveTo);  // IEDF
                         }
                     } else {  // we know that A is blocked
                         if (this.isBlocked(D)) {
@@ -333,17 +337,25 @@ class Game {
 
     slideAndRotate(direction, squaresToMoveTo) {
         switch(direction) {
-            case 'left twice':
-                this.currentShape.shift('left', -20);
+            case 'left':
                 this.currentShape.shift('left', -20);
                 break;
-            case 'left':
+            case 'left twice':
+                this.currentShape.shift('left', -20);
                 this.currentShape.shift('left', -20);
                 break;
             case 'right':
                 this.currentShape.shift('left', 20);
                 break;
+            case 'right twice':
+                this.currentShape.shift('left', 20);
+                this.currentShape.shift('left', 20);
+                break;
             case 'down':
+                this.currentShape.shift('top', 20);
+                break;
+            case 'down twice':
+                this.currentShape.shift('top', 20);
                 this.currentShape.shift('top', 20);
                 break;
             case 'up':
