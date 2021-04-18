@@ -23,7 +23,7 @@ class Shape {
             }
             return shape;
         });
-    
+
         return tetrominoes;
     }
 

@@ -1,29 +1,44 @@
 class ShapeSchema {
+    static getStartingLocation() {
+        const upperLeftCorner = [-1, 4];
+        const boundingBox = [...Array(4)].map((val, rowIndex) => {
+            const row = [...Array(4)].map((v, colIndex) => {
+
+                // TO DO: change property names to 'boardLocation' and 'isFilled' (boolean)
+
+                return {
+                    square: [
+                        rowIndex + upperLeftCorner[0],
+                        colIndex + upperLeftCorner[1]
+                    ],
+                    type: 'empty'
+                };
+            });
+            return row;
+        });
+        return boundingBox;
+    }
+
     static getStartingPosition(name) {
-        let inhabitedSquares = [
-            [ {square: [-1, 4], type: 'empty'}, {square: [-1, 5], type: 'empty'}, {square: [-1, 6], type: 'empty'}, {square: [-1, 7], type: 'empty'}],
-            [ {square: [0, 4], type: 'empty'}, {square: [0, 5], type: 'empty'}, {square: [0, 6], type: 'empty'}, {square: [0, 7], type: 'empty'}],
-            [ {square: [1, 4], type: 'empty'}, {square: [1, 5], type: 'empty'}, {square: [1, 6], type: 'empty'}, {square: [1, 7], type: 'empty'}],
-            [ {square: [2, 4], type: 'empty'}, {square: [2, 5], type: 'empty'}, {square: [2, 6], type: 'empty'}, {square: [2, 7], type: 'empty'}]
-        ];
+        const boundingBox = this.getStartingLocation();
 
         if (name === 'i') {
-            inhabitedSquares[1].forEach(object => object.type = 'filled');
+            boundingBox[1].forEach(object => object.type = 'filled');
         } else if (name === 'o') {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][1].type = inhabitedSquares[2][2].type = 'filled';
+            boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[2][1].type = boundingBox[2][2].type = 'filled';
         } else if (name === 't') {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][2].type = 'filled';
+            boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[1][3].type = boundingBox[2][2].type = 'filled';
         } else if (name === 'z') {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][2].type = inhabitedSquares[2][3].type = 'filled';
+            boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[2][2].type = boundingBox[2][3].type = 'filled';
         } else if (name === 's') {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][0].type = inhabitedSquares[2][1].type = 'filled';
+            boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[2][0].type = boundingBox[2][1].type = 'filled';
         } else if (name === 'l') {
-            inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[1][3].type = inhabitedSquares[2][1].type = 'filled';
+            boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[1][3].type = boundingBox[2][1].type = 'filled';
         } else if (name === 'j') {
-            inhabitedSquares[1][0].type = inhabitedSquares[1][1].type = inhabitedSquares[1][2].type = inhabitedSquares[2][2].type = 'filled';
+            boundingBox[1][0].type = boundingBox[1][1].type = boundingBox[1][2].type = boundingBox[2][2].type = 'filled';
         }
 
-        return inhabitedSquares;
+        return boundingBox;
     }
 
     static squareShouldBeFilled({ name, degrees }, row, col) {
