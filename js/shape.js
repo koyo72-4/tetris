@@ -227,9 +227,9 @@ class Shape {
                 return objectOfSquares;
             } else if (this.degrees === 270) {
                 const objectOfSquares = {
-                    B: squaresToMoveTo[1][0].square,
+                    B: squaresToMoveTo[1][1].square,
                     G: squaresToMoveTo[1][2].square,
-                    A: squaresToMoveTo[2][0].square,
+                    A: squaresToMoveTo[2][1].square,
                     C: squaresToMoveTo[1][3].square
                 };
                 objectOfSquares.E = [objectOfSquares.A[0], objectOfSquares.A[1] - 1];
